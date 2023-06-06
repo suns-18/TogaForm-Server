@@ -1,0 +1,14 @@
+server:
+  port: 8085
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/togaform_demo?useUnicode=true&characterEncoding=utf8
+    username: root
+    password: root
+  devtools:
+    restart:
+      enabled: true
+      additional-paths: src/main/java
+      additional-exclude: WEB-INF/**
+  freemarker:
+    cache: false
