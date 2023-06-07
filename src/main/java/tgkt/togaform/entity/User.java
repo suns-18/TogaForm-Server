@@ -3,22 +3,23 @@ package tgkt.togaform.entity;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.util.Date;
 
 @Data
 public class User implements Serializable {
-    private Integer Id;
+    private String id;
     private String username;
     private String password;
     private String roleId;
 
-    private String startTime;
-    private String stopTime;
+    private Date startTime;
+    private Date stopTime;
 
     private String status;
 
     private String createdBy;
-    private String creationDate;
+    private Date creationDate;
 
     private String lastUpdatedBy;
-    private String lastUpdateDate;
+    private Date lastUpdatedDate;
 }
