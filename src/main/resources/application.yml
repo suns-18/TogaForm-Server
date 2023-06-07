@@ -2,9 +2,10 @@ server:
   port: 8085
 spring:
   datasource:
-    url: jdbc:mysql://localhost:3306/togaform_demo?useUnicode=true&characterEncoding=utf8
+    url: jdbc:mysql://localhost:3306/togaform?useUnicode=true&characterEncoding=utf8
     username: root
     password: root
+    driver-class-name: com.mysql.cj.jdbc.Driver
   devtools:
     restart:
       enabled: true
@@ -12,3 +13,7 @@ spring:
       additional-exclude: WEB-INF/**
   freemarker:
     cache: false
+
+mybatis:
+  type-aliases-package: tgkt.togaform
+  mapper-locations: classpath:mapper/*Mapper.xml
