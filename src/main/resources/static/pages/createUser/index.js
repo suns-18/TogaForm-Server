@@ -42,8 +42,7 @@ const handleCreateUser = () => {
   if (!($('#endDate').val() && new Date($('#endDate').val()).getTime())) return alert('结束时间不能为空！')
 
   let user = $util.getPageParam('user');
-  console.log('--- user ---')
-  console.log(user);
+
   if(!user) {
     user = {};
   }
@@ -57,13 +56,13 @@ const handleCreateUser = () => {
   if(user.id) {
 
     $.ajax({
-      url: API_BASE_URL + '/admin/modifyUser',
+      url: API_BASE_URL + '/api/user/updateUser',
       type: 'POST',
       data: JSON.stringify(user),
       dataType: 'json',
       contentType: 'application/json',
       success(res) {
-        if (res.code === "10") {
+        if (res.code === "1") {
           location.href = '/pages/user/index.html'
         } else {
           alert(res.message)
@@ -74,15 +73,13 @@ const handleCreateUser = () => {
   } else {
     // 新建
     $.ajax({
-      url: API_BASE_URL + '/admin/addUserR',
+      url: API_BASE_URL + '/api/user/addUser',
       type: 'POST',
       data: JSON.stringify(user),
       dataType: 'json',
       contentType: 'application/json',
       success(res) {
-        console.log(res.code)
-        console.log(res.code === "10")
-        if (res.code === "10") {
+        if (res.code === "1") {
           location.href = '/pages/user/index.html'
         } else {
           alert(res.message)

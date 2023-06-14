@@ -1,5 +1,5 @@
 onload = () => {
-  $('#headerUsername').text($util.getItem('userInfo').username)
+  $('#headerUsername').text($util.getItem('user').username)
   handleHeaderLoad()
   fetchProjectList()
 }
@@ -8,11 +8,11 @@ let projectList = []
 
 const fetchProjectList = () => {
   let params = {
-    createdBy: $util.getItem('userInfo').username,
+    createdBy: $util.getItem('user').id,
     projectName: $('#projectName').val()
   }
   $.ajax({
-    url: API_BASE_URL + '/queryProjectList',
+    url: API_BASE_URL + '/api/project/queryList',
     type: "POST",
     data: JSON.stringify(params),
     dataType: "json",
@@ -42,7 +42,6 @@ const fetchProjectList = () => {
     }
   })
 }
-
 const onCreatePrject = () => {
   location.href = "/pages/createProject/index.html"
 }
@@ -71,7 +70,7 @@ const onDelProject = (pid) => {
     }
     //alert(JSON.stringify(params))
     $.ajax({
-      url: API_BASE_URL + '/deleteProjectById',
+      url: API_BASE_URL + '/api/project/deleteProject',
       type: "POST",
       data: JSON.stringify(params),
       dataType: "json",
