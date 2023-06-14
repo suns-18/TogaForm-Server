@@ -37,6 +37,7 @@ public class UserController {
                         .message("登陆成功")
                         .build();*/
                 resp.setCode("0");
+                resp.setData(result.get(0));
                 resp.setMessage("登陆成功");
             }
         } catch (Exception e) {
@@ -66,6 +67,7 @@ public class UserController {
                         .message("列表为空")
                         .build();*/
                 resp.setCode("1");
+                resp.setData(result);
                 resp.setMessage("列表为空");
             } else {
                 /*
@@ -75,6 +77,7 @@ public class UserController {
                         .message("查询成功")
                         .build();*/
                 resp.setCode("1");
+                resp.setData(result);
                 resp.setMessage("查询成功");
             }
         } catch (Exception e) {
