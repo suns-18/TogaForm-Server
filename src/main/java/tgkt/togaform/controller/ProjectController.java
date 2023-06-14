@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 import tgkt.togaform.entity.ProjectInfo;
 import tgkt.togaform.response.HttpResponse;
 import tgkt.togaform.service.ProjectService;
+import tgkt.togaform.util.UUIDUtil;
 
 @RestController
 @RequestMapping(value = "/api/project")
@@ -19,7 +20,7 @@ public class ProjectController {
 	public HttpResponse queryList(@RequestBody ProjectInfo projectInfo) {
 		HttpResponse resp = new HttpResponse();
 		try {
-			
+
 			var result = projectService.queryList(projectInfo);
 /*
 			resp = HttpResponse.builder()
@@ -48,31 +49,19 @@ public class ProjectController {
 	public HttpResponse addProject(@RequestBody ProjectInfo projectInfo) {
 		HttpResponse resp = new HttpResponse();
 		try {
-			if (projectInfo.getId() == null) throw new RuntimeException();
+			projectInfo.setId(UUIDUtil.getOneUUID());
 			var result = projectService.insert(projectInfo);
+
 			if (result != 0) {
 				resp.setCode("1");
 				resp.setMessage("添加成功");
-			}/*
-				resp = HttpResponse.builder()
-					.code("1")
-					.message("添加成功")
-					.build();*/ else {
-				/*
-				resp = HttpResponse.builder()
-					.code("0")
-					.message("添加失败")
-					.build();*/
+			} else {
 				resp.setCode("0");
 				resp.setMessage("添加失败");
 			}
 
 		} catch (Exception e) {
-			/*
-			resp = HttpResponse.builder()
-				.code("0")
-				.message("请求错误")
-				.build();*/
+			e.printStackTrace();
 			resp.setCode("0");
 			resp.setMessage("请求错误");
 		}
