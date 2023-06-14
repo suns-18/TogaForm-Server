@@ -36,7 +36,7 @@ public class UserController {
                         .data(result.get(0))
                         .message("登陆成功")
                         .build();*/
-                resp.setCode("0");
+                resp.setCode("1");
                 resp.setData(result.get(0));
                 resp.setMessage("登陆成功");
             }
