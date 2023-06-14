@@ -21,11 +21,14 @@ public class UserService {
 		return userMapper.verify(user);
 	}
 
-	public int insert(User user) throws Exception {
+	public int insert(User user) throws NullPointerException {
+		if(user.getUsername().isEmpty())
+			return 0;
+		user.setId(UUIDUtil.getOneUUID());
 		return userMapper.insert(user);
 	}
 
-	public int modify(User user) throws Exception {
+	public int update(User user) {
 		return userMapper.update(user);
 	}
 

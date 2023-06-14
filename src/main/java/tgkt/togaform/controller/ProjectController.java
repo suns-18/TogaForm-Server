@@ -49,7 +49,6 @@ public class ProjectController {
 	public HttpResponse addProject(@RequestBody ProjectInfo projectInfo) {
 		HttpResponse resp = new HttpResponse();
 		try {
-			projectInfo.setId(UUIDUtil.getOneUUID());
 			var result = projectService.insert(projectInfo);
 
 			if (result != 0) {
