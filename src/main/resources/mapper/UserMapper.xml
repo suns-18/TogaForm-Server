@@ -15,7 +15,7 @@
         <result column="created_by" jdbcType="VARCHAR" property="createdBy" />
         <result column="creation_date" jdbcType="TIMESTAMP" property="creationDate" />
         <result column="last_updated_by" jdbcType="VARCHAR" property="lastUpdatedBy" />
-        <result column="last_updated_date" jdbcType="TIMESTAMP" property="lastUpdatedDate" />
+        <result column="last_update_date" jdbcType="TIMESTAMP" property="lastUpdateDate" />
     </resultMap>
 
     <sql id="allColumns">
@@ -25,23 +25,23 @@
     <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BRM">
         select
         <include refid="allColumns"/>
-        from users where id = #{id,jdbcType=VARCHAR}
+        from `user_info` where id = #{id,jdbcType=VARCHAR}
     </select>
     <delete id="deleteById" parameterType="java.lang.String">
-        delete from users where id = #{id,jdbcType=VARCHAR}
+        delete from `user_info` where id = #{id,jdbcType=VARCHAR}
     </delete>
     <delete id="deleteByName" parameterType="java.lang.String">
-        delete from users where username = #{username,jdbcType=VARCHAR}
+        delete from `user_info` where username = #{username,jdbcType=VARCHAR}
     </delete>
     <insert id="insert" parameterType="tgkt.togaform.entity.User">
-        insert into users
+        insert into `user_info`
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="id != null">id,</if>
             <if test="username != null">username,</if>
             <if test="password != null">password,</if>
             <if test="startTime != null">start_time,</if>
             <if test="stopTime != null">stop_time,</if>
-            <if test="status != null">status,</if>
+            status,
             <if test="createdBy != null">created_by,</if>
             <if test="creationDate != null">creation_date,</if>
             <if test="lastUpdatedBy != null">last_updated_by,</if>
@@ -62,7 +62,7 @@
         </trim>
     </insert>
     <update id="update" parameterType="tgkt.togaform.entity.User">
-        update users
+        update `user_info`
         <set>
             <if test="username != null">username = #{username,jdbcType=VARCHAR},</if>
             <if test="password != null">password = #{password,jdbcType=VARCHAR},</if>
@@ -78,12 +78,16 @@
     </update>
     <select id="verify" parameterType="java.lang.String"
             resultMap="BRM">
-        SELECT id, username,status FROM users
+        SELECT id, username,status FROM `user_info`
         WHERE username = #{username,jdbcType=VARCHAR}
         AND `password` = #{password,jdbcType=VARCHAR}
         AND status = "1"
     </select>
-    <select id="queryList" resultMap="BRM">
-        SELECT * FROM users order by username
+    <select id="queryList" resultMap="BRM" parameterType="java.lang.String">
+        SELECT * FROM `user_info`
+        <if test="username != null">
+            where username like '%${username}%'
+        </if>
+        order by creation_date desc
     </select>
 </mapper>
