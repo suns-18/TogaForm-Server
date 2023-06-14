@@ -9,6 +9,8 @@ import tgkt.togaform.entity.ProjectInfo;
 import tgkt.togaform.service.ProjectService;
 import tgkt.togaform.util.UUIDUtil;
 
+import java.util.List;
+
 @Component
 //@SpringBootTest
 public class UnitTestProject {
@@ -23,12 +25,6 @@ public class UnitTestProject {
 		var pji = new ProjectInfo();
 		projectController.queryList(pji);
 
-		pji.setId("1");
-		projectController.queryList(pji);
-
-		pji.setId("0ff2e0a4e31d41439cd705b0eafc5f15");
-		projectController.queryList(pji);
-
 		pji.setId(null);
 		pji.setProjectName("k");
 		projectController.queryList(pji);
@@ -37,17 +33,15 @@ public class UnitTestProject {
 		pji.setProjectName(null);
 		projectController.queryList(pji);
 
-		pji.setId(UUIDUtil.getOneUUID());
 		pji.setProjectName("test");
 		projectController.addProject(pji);
+		pji.setProjectName(null);
 		projectController.addProject(pji);
-		pji.setId("");
-		projectController.addProject(pji);
-		pji.setId("114514");
+		pji.setProjectName("");
 		projectController.addProject(pji);
 
-		pji.setProjectName("test1");
-		System.out.println(pji.toString());
+		pji.setProjectName("a");
+		pji = ((List<ProjectInfo>) (projectController.queryList(pji).getData())).get(0);
 		projectController.updateUser(pji);
 
 		pji.setId(null);

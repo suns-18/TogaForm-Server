@@ -27,50 +27,64 @@ public class UnitTestUser {
 	@Autowired
 	UserController userController;
 	public void controller() throws Exception {
-		User user = new User();
-		user.setId(UUIDUtil.getOneUUID());
-		var id = user.getId();
-		user.setStatus("1");
-		user.setUsername("LS");
-		user.setPassword("123");
+		User user1 = new User();
 
-		userController.addUser(user);
-		userController.addUser(user);
-		user.setId(null);
-		userController.addUser(user);
+		user1.setStatus("1");
+		user1.setUsername("user1");
+		user1.setPassword("user1");
 
-		user.setId(id);
-		user.setStatus("0");
-		user.setUsername("LS23213");
-		user.setPassword("1231313");
+		userController.addUser(user1);
+		user1.setUsername(null);
+		user1.setPassword("null_str");
+		userController.addUser(user1);
 
-		userController.updateUser(user);
-		userController.queryUserList(user);
+		user1.setUsername("");
+		user1.setPassword("empty_str");
+		userController.addUser(user1);
+
+		userController.addUser(null);
+
+
+		user1.setUsername("user1");
+		user1.setPassword("user1");
+
+		var data = userController.userLogin(user1);
+		var user2 = (User) data.getData();
+
+		user2.setPassword("user2");
+		user2.setUsername("user2");
+		userController.updateUser(user2);
+
+		userController.queryUserList(user1);
+
+		user1.setUsername("aaaaaaaaaaaaaaaaaaaaaaaaaa");
+		userController.queryUserList(user1);
 		userController.queryUserList(null);
 
-		user.setId("1111");
-		userController.updateUser(user);
-		user.setId(null);
-		userController.updateUser(user);
+		var user2ID = user2.getId();
+		user2.setId("1111");
+		userController.updateUser(user2);
+		user2.setId(null);
+		userController.updateUser(user2);
 
-		user.setId(id);
-		userController.deleteUserById(user);
-		userController.deleteUserById(user);
-		user.setId(null);
-		userController.deleteUserById(user);
 
-		userController.queryUserList(user);
+		user2.setId(user2ID);
+		userController.deleteUserById(user2);
 
+		userController.deleteUserById(user2);
+
+		user2.setId(null);
+		userController.deleteUserById(user2);
 
 		userController.userLogout();
 
-		user.setUsername("admin");
-		user.setPassword("admin");
-		userController.userLogin(user);
+		user1.setUsername("admin");
+		user1.setPassword("admin");
+		userController.userLogin(user1);
 
-		user.setUsername("admiwewen");
-		user.setPassword("adwdwdmin");
-		userController.userLogin(user);
+		user1.setUsername("admiwewen");
+		user1.setPassword("adwdwdmin");
+		userController.userLogin(user1);
 
 		userController.userLogin(null);
 		userController.userLogin(new User());
