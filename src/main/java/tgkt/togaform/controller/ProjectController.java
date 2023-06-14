@@ -19,6 +19,7 @@ public class ProjectController {
 	public HttpResponse queryList(@RequestBody ProjectInfo projectInfo) {
 		HttpResponse resp = new HttpResponse();
 		try {
+			
 			var result = projectService.queryList(projectInfo);
 /*
 			resp = HttpResponse.builder()
@@ -47,18 +48,16 @@ public class ProjectController {
 	public HttpResponse addProject(@RequestBody ProjectInfo projectInfo) {
 		HttpResponse resp = new HttpResponse();
 		try {
+			if (projectInfo.getId() == null) throw new RuntimeException();
 			var result = projectService.insert(projectInfo);
-			System.out.println(result);
-			if (result != 0){
+			if (result != 0) {
 				resp.setCode("1");
 				resp.setMessage("添加成功");
 			}/*
 				resp = HttpResponse.builder()
 					.code("1")
 					.message("添加成功")
-					.build();*/
-
-			else{
+					.build();*/ else {
 				/*
 				resp = HttpResponse.builder()
 					.code("0")
@@ -84,17 +83,17 @@ public class ProjectController {
 	public HttpResponse updateUser(@RequestBody ProjectInfo projectInfo) {
 		HttpResponse resp = new HttpResponse();
 		try {
+			if (projectInfo.getId() == null) throw new RuntimeException();
 			var result = projectService.update(projectInfo);
 
-			if (result != 0){
+			if (result != 0) {
 				resp.setCode("1");
 				resp.setMessage("修改成功");
 			}/*
 				resp = HttpResponse.builder()
 					.code("1")
 					.message("修改成功")
-					.build();*/
-			else{
+					.build();*/ else {
 				resp.setCode("0");
 				resp.setMessage("修改失败");
 			}/*
@@ -119,17 +118,17 @@ public class ProjectController {
 	public HttpResponse deleteUserById(@RequestBody ProjectInfo projectInfo) {
 		HttpResponse resp = new HttpResponse();
 		try {
+			if (projectInfo.getId() == null) throw new RuntimeException();
 			var result = projectService.deleteById(projectInfo);
 
-			if (result != 0){
+			if (result != 0) {
 				resp.setCode("1");
 				resp.setMessage("删除成功");
 			}/*
 				resp = HttpResponse.builder()
 					.code("1")
 					.message("删除成功")
-					.build();*/
-			else{
+					.build();*/ else {
 				resp.setCode("0");
 				resp.setMessage("删除失败");
 			}/*

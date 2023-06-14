@@ -19,8 +19,9 @@ class TogaFormApplicationTests {
 	@Autowired
 	UnitTestUser unitTestUser;
 	@Test
-	void contextLoads() {
+	void contextLoads() throws Exception{
 		unitTestUser.httpResponseTest();
+		unitTestUser.controller();
 		unitTestProject.controller();
 	}
 
@@ -105,53 +106,6 @@ class TogaFormApplicationTests {
 			// 记录info级别的信息
 			log.info(">> User数据访问层: deleteById测试成功");
 		}
-	}
-
-	@Autowired
-	UserController userController;
-
-	@Test
-	public void controller() throws Exception {
-		User user = new User();
-		user.setId(UUIDUtil.getOneUUID());
-		var id = user.getId();
-		user.setStatus("1");
-		user.setUsername("LS");
-		user.setPassword("123");
-
-		userController.addUser(user);
-		userController.addUser(user);
-
-		user.setStatus("0");
-		user.setUsername("LS23213");
-		user.setPassword("1231313");
-
-		userController.updateUser(user);
-		userController.queryUserList(user);
-
-		user.setId("1111");
-		userController.updateUser(user);
-
-		user.setId(id);
-		userController.deleteUserById(user);
-		userController.deleteUserById(user);
-
-		userController.queryUserList(user);
-
-
-		userController.userLogout();
-
-		user.setUsername("admin");
-		user.setPassword("admin");
-		userController.userLogin(user);
-
-		user.setUsername("admiwewen");
-		user.setPassword("adwdwdmin");
-		userController.userLogin(user);
-
-		userController.userLogin(null);
-		userController.userLogin(new User());
-
 	}
 
 	@Test

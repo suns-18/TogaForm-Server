@@ -41,6 +41,10 @@ public class UnitTestProject {
 		pji.setProjectName("test");
 		projectController.addProject(pji);
 		projectController.addProject(pji);
+		pji.setId("");
+		projectController.addProject(pji);
+		pji.setId("114514");
+		projectController.addProject(pji);
 
 		pji.setProjectName("test1");
 		System.out.println(pji.toString());

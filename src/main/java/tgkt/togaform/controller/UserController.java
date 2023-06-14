@@ -19,6 +19,7 @@ public class UserController {
         //HttpResponse resp;
         HttpResponse resp = new HttpResponse();
         try {
+            if(user.getUsername()==null) throw new Exception();
             var result = userService.verify(user);
 
             if (result.isEmpty()) {/*
@@ -55,6 +56,7 @@ public class UserController {
     public HttpResponse queryUserList(@RequestBody User user) {
         HttpResponse resp = new HttpResponse();
         try {
+            if (user==null) throw new Exception();
             var result = userService.queryList(user);
             resp.setData(result);
             if (result.isEmpty()) {
@@ -93,6 +95,7 @@ public class UserController {
     public HttpResponse addUser(@RequestBody User user) {
         HttpResponse resp = new HttpResponse();
         try {
+            if(user.getId()==null) throw new Exception();
             var result = userService.insert(user);
 
             if (result != 0){
@@ -131,6 +134,7 @@ public class UserController {
     public HttpResponse updateUser(@RequestBody User user) {
         HttpResponse resp = new HttpResponse();
         try {
+            if(user.getId()==null) throw new Exception();
             var result = userService.modify(user);
 
             if (result != 0){
@@ -168,6 +172,7 @@ public class UserController {
     public HttpResponse deleteUserById(@RequestBody User user) {
         HttpResponse resp = new HttpResponse();
         try {
+            if(user.getId()==null) throw new Exception();
             var result = userService.deleteById(user);
 
             if (result != 0){
