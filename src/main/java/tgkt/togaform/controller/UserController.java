@@ -8,6 +8,8 @@ import tgkt.togaform.service.UserService;
 import tgkt.togaform.response.HttpResponse;
 import tgkt.togaform.util.UUIDUtil;
 
+import java.util.UUID;
+
 @RestController
 @RequestMapping(value = "/api/user")
 public class UserController {
@@ -98,7 +100,7 @@ public class UserController {
     public HttpResponse addUser(@RequestBody User user) {
         HttpResponse resp = new HttpResponse();
         try {
-            if(user.getId()==null) throw new Exception();
+            user.setId(UUIDUtil.getOneUUID());
             var result = userService.insert(user);
 
             if (result != 0){

@@ -87,29 +87,4 @@ const handleCreateUser = () => {
       }
     })
   }
-
-  // let params = {
-  //   username: $('#username').val(),
-  //   password: $('#password').val(),
-  //   startTime: $('#startDate').val() && new Date($('#startDate').val()).getTime(),
-  //   stopTime: $('#endDate').val() && new Date($('#endDate').val()).getTime()
-  // }
-  // if (!params.username) return alert('账号不能为空！')
-  // if (!params.password) return alert('密码不能为空！')
-  // if (!params.startTime) return alert('开始时间不能为空！')
-  // if (!params.stopTime) return alert('结束时间不能为空！')
-  // $.ajax({
-  //   url: API_BASE_URL + '/admin/addUserInfo',
-  //   type: 'POST',
-  //   data: JSON.stringify(params),
-  //   dataType: 'json',
-  //   contentType: 'application/json',
-  //   success(res) {
-  //     if (res.code === "666") {
-  //       location.href = '/pages/user/index.html'
-  //     } else {
-  //       alert(res.message)
-  //     }
-  //   }
-  // })
 }
