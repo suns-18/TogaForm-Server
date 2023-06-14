@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="tgkt.togaform.mapper.ProjectInfoMapper">
+  <resultMap id="BaseResultMap" type="tgkt.togaform.entity.ProjectInfo">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="user_id" jdbcType="VARCHAR" property="userId" />
+    <result column="project_name" jdbcType="VARCHAR" property="projectName" />
+    <result column="created_by" jdbcType="CHAR" property="createdBy" />
+    <result column="creation_date" jdbcType="TIMESTAMP" property="creationDate" />
+    <result column="last_updated_by" jdbcType="CHAR" property="lastUpdatedBy" />
+    <result column="last_update_date" jdbcType="TIMESTAMP" property="lastUpdateDate" />
+    <result column="project_content" jdbcType="LONGVARCHAR" property="projectContent" />
+  </resultMap>
+  <delete id="deleteById" parameterType="java.lang.String">
+    
+    delete from project_info
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="tgkt.togaform.entity.ProjectInfo" useGeneratedKeys="true">
+    
+    insert into project_info (id, user_id, project_name, created_by,
+      creation_date, last_updated_by, last_update_date, 
+      project_content)
+    values (#{id,jdbcType=VARCHAR},#{userId,jdbcType=VARCHAR}, #{projectName,jdbcType=VARCHAR}, #{createdBy,jdbcType=CHAR},
+      #{creationDate,jdbcType=TIMESTAMP}, #{lastUpdatedBy,jdbcType=CHAR}, #{lastUpdateDate,jdbcType=TIMESTAMP}, 
+      #{projectContent,jdbcType=LONGVARCHAR})
+  </insert>
+  <update id="update" parameterType="tgkt.togaform.entity.ProjectInfo">
+    
+    update project_info
+      <set>
+          <if test="userId != null">user_id = #{userId,jdbcType=VARCHAR},</if>
+          <if test="projectName != null">project_name = #{projectName,jdbcType=VARCHAR},</if>
+          <if test="createdBy != null">created_by = #{createdBy,jdbcType=CHAR},</if>
+          <if test="creationDate != null">creation_date = #{creationDate,jdbcType=TIMESTAMP},</if>
+          <if test="lastUpdatedBy != null">last_updated_by = #{lastUpdatedBy,jdbcType=CHAR},</if>
+          <if test="lastUpdateDate != null">last_update_date = #{lastUpdateDate,jdbcType=TIMESTAMP},</if>
+          <if test="projectContent != null">project_content = #{projectContent,jdbcType=LONGVARCHAR},</if>
+      </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <select id="queryAll" resultMap="BaseResultMap">
+      select *
+      from project_info
+    <if test="createdBy!=null">
+      where created_by = #{createdBy,jdbcType=CHAR}
+    </if>
+  </select>
+  <select id="queryById" resultMap="BaseResultMap">
+      select id, user_id, project_name, created_by,
+      creation_date, last_updated_by, last_update_date,
+      project_content
+      from project_info
+      where id = #{id}
+  </select>
+  <select id="queryByProjectName" resultMap="BaseResultMap">
+      select *
+      from project_info
+      where project_name like '%${projectName}%'
+      <if test="createdBy != null">
+          and created_by = #{createdBy,jdbcType=CHAR}
+      </if>
+  </select>
+</mapper>
