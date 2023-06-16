@@ -94,6 +94,13 @@
                         </goals>
                     </execution>
                 </executions>
+                <configuration>
+                    <includes>
+                        <include>tgkt/togaform/controller/*</include>
+                        <include>tgkt/togaform/service/*</include>
+                        <include>tgkt/togaform/util/*</include>
+                    </includes>
+                </configuration>
             </plugin>
         </plugins>
     </build>
