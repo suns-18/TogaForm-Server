@@ -6,7 +6,6 @@ import org.springframework.web.bind.annotation.*;
 import tgkt.togaform.entity.User;
 import tgkt.togaform.service.UserService;
 import tgkt.togaform.response.HttpResponse;
-import tgkt.togaform.util.UUIDUtil;
 
 @RestController
 @RequestMapping(value = "/api/user")
@@ -60,7 +59,7 @@ public class UserController {
 			if (user == null) throw new Exception();
 			var result = userService.queryList(user);
 			resp.setData(result);
-			System.out.println(result);
+
 			if (result.isEmpty()) {
                 /*
                 resp = HttpResponse.builder()
@@ -136,7 +135,6 @@ public class UserController {
 			if (user.getId() == null) throw new Exception();
 			var result = userService.update(user);
 
-			System.out.println(result);
 			if (result != 0) {
 				resp.setCode("1");
 				resp.setMessage("修改成功");
@@ -173,7 +171,7 @@ public class UserController {
 	public HttpResponse deleteUserById(@RequestBody User user) {
 		HttpResponse resp = new HttpResponse();
 		try {
-			System.out.println(user.getId());
+
 			if (user.getId() == null) throw new Exception();
 			var result = userService.deleteById(user);
 
@@ -187,7 +185,7 @@ public class UserController {
                         .message("删除成功")
                         .build();*/
 			else {
-				resp.setCode("1");
+				resp.setCode("0");
 				resp.setMessage("删除失败");
 			}
             /*
