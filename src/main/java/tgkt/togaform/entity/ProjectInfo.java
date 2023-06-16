@@ -1,7 +1,6 @@
 package tgkt.togaform.entity;
 
 import java.util.Date;
-import lombok.Data;
 
 public class ProjectInfo {
     private String id;

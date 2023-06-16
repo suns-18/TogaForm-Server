@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.RestController;
 import tgkt.togaform.entity.ProjectInfo;
 import tgkt.togaform.response.HttpResponse;
 import tgkt.togaform.service.ProjectService;
-import tgkt.togaform.util.UUIDUtil;
 
 @RestController
 @RequestMapping(value = "/api/project")
@@ -60,7 +59,6 @@ public class ProjectController {
 			}
 
 		} catch (Exception e) {
-			e.printStackTrace();
 			resp.setCode("0");
 			resp.setMessage("请求错误");
 		}

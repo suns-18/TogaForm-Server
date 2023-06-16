@@ -14,11 +14,6 @@ public class ProjectService {
 	private ProjectInfoMapper projectInfoMapper;
 
 	public List<ProjectInfo> queryList(ProjectInfo projectInfo) {
-
-		if (projectInfo.getId() != null &&
-			!projectInfo.getId().isEmpty())
-			return projectInfoMapper.queryById(projectInfo);
-
 		if (projectInfo.getProjectName() != null &&
 			!projectInfo.getProjectName().isEmpty())
 			return projectInfoMapper.queryByProjectName(projectInfo);
@@ -26,11 +21,15 @@ public class ProjectService {
 		return projectInfoMapper.queryAll(projectInfo);
 	}
 
-	public int insert(ProjectInfo projectInfo) {
-		if (projectInfo.getProjectName().isEmpty())
-			return 0;
-		projectInfo.setId(UUIDUtil.getOneUUID());
-		return projectInfoMapper.insert(projectInfo);
+	public int insert(ProjectInfo projectInfo) throws Exception{
+		try{
+			if (projectInfo.getProjectName().isEmpty())
+				return 0;
+			projectInfo.setId(UUIDUtil.getOneUUID());
+			return projectInfoMapper.insert(projectInfo);
+		}finally {
+
+		}
 	}
 
 	public int update(ProjectInfo projectInfo) {

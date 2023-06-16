@@ -1,8 +1,5 @@
 package tgkt.togaform.response;
 
-import lombok.Data;
-import lombok.experimental.SuperBuilder;
-
 public class HttpResponse {
     private String code;
     private Object data;
