@@ -14,6 +14,11 @@ public class ProjectService {
 	private ProjectInfoMapper projectInfoMapper;
 
 	public List<ProjectInfo> queryList(ProjectInfo projectInfo) {
+
+		if (projectInfo.getId() != null &&
+				!projectInfo.getId().isEmpty())
+			return projectInfoMapper.queryById(projectInfo);
+
 		if (projectInfo.getProjectName() != null &&
 			!projectInfo.getProjectName().isEmpty())
 			return projectInfoMapper.queryByProjectName(projectInfo);

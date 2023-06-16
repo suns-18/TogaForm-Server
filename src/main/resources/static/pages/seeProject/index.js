@@ -18,7 +18,6 @@ const fetchProjectInfo = (id) => {
     contentType: "application/json",
     success(res) {
       let info = res.data[0]
-      console.log(info, 'res')
       $('#projectName').text(info.projectName)
       $('#createTime').text(localTime(info.creationDate))
       $('#projectDescription').text(info.projectContent)

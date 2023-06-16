@@ -33,7 +33,7 @@ const fetchUserList = () => {
             <td>
               <button type="button" class="btn btn-link">重置密码</button>
               <button type="button" class="btn btn-link" onclick="handleEdit('${item.id}')">编辑</button>
-              <button type="button" class="btn btn-link btn-red">关闭</button>
+              <button type="button" class="btn btn-link btn-red" >关闭</button>
               <button type="button" class="btn btn-link btn-red" onclick="deleteUser('${item.id}')">删除</button>
             </td>
           </tr>
@@ -74,6 +74,7 @@ const handleCreateUser = () => {
 	$util.setPageParam('user', undefined)
 	location.href = '/pages/createUser/index.html'
 }
+
 
 const handleEdit = (id) => {
 	let user = userList.filter(item => item.id === id)[0]
