@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.stereotype.Component;
 import tgkt.togaform.controller.UserController;
+import tgkt.togaform.entity.ProjectInfo;
 import tgkt.togaform.entity.User;
 import tgkt.togaform.response.HttpResponse;
 import tgkt.togaform.service.UserService;
