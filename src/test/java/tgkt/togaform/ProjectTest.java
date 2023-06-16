@@ -42,6 +42,28 @@ class ProjectTest {
     }
 
     @Test
+    void querySingle() {
+        var p = new ProjectInfo();
+        p.setId("11111111111");
+        Assertions.assertTrue(((List<ProjectInfo>)
+                        (controller.queryList(p)
+                                .getData()))
+                        .isEmpty()
+                , "Project模块>>单个请求测试1：不存在的Id，未通过");
+        log.info("Project模块>>单个请求测试1：不存在的Id，通过");
+
+        p.setId("028b57c425f5da70b35f89376dbc4c09");
+        Assertions.assertFalse(((List<ProjectInfo>)
+                        (controller.queryList(p)
+                                .getData()))
+                        .isEmpty()
+                , "Project模块>>单个请求测试2：存在的Id，未通过");
+        log.info("Project模块>>单个请求测试2：存在的Id，通过");
+
+        log.info("Project模块>>单个请求测试通过");
+    }
+
+    @Test
     void add() {
         var p = new ProjectInfo();
         p.setProjectName("test");

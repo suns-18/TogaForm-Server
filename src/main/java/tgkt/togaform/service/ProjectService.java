@@ -10,38 +10,38 @@ import java.util.List;
 
 @Service
 public class ProjectService {
-	@Autowired
-	private ProjectInfoMapper projectInfoMapper;
+    @Autowired
+    private ProjectInfoMapper projectInfoMapper;
 
-	public List<ProjectInfo> queryList(ProjectInfo projectInfo) {
+    public List<ProjectInfo> queryList(ProjectInfo projectInfo) {
 
-		if (projectInfo.getId() != null &&
-				!projectInfo.getId().isEmpty())
-			return projectInfoMapper.queryById(projectInfo);
+        if (projectInfo.getId() != null &&
+                !projectInfo.getId().isEmpty())
+            return projectInfoMapper.queryById(projectInfo);
 
-		if (projectInfo.getProjectName() != null &&
-			!projectInfo.getProjectName().isEmpty())
-			return projectInfoMapper.queryByProjectName(projectInfo);
+        if (projectInfo.getProjectName() != null &&
+                !projectInfo.getProjectName().isEmpty())
+            return projectInfoMapper.queryByProjectName(projectInfo);
 
-		return projectInfoMapper.queryAll(projectInfo);
-	}
+        return projectInfoMapper.queryAll(projectInfo);
+    }
 
-	public int insert(ProjectInfo projectInfo) throws Exception{
-		try{
-			if (projectInfo.getProjectName().isEmpty())
-				return 0;
-			projectInfo.setId(UUIDUtil.getOneUUID());
-			return projectInfoMapper.insert(projectInfo);
-		}finally {
+    public int insert(ProjectInfo projectInfo) throws NullPointerException {
+        try {
+            if (projectInfo.getProjectName().isEmpty())
+                return 0;
+            projectInfo.setId(UUIDUtil.getOneUUID());
+            return projectInfoMapper.insert(projectInfo);
+        } catch (NullPointerException e) {
+            throw e;
+        }
+    }
 
-		}
-	}
+    public int update(ProjectInfo projectInfo) {
+        return projectInfoMapper.update(projectInfo);
+    }
 
-	public int update(ProjectInfo projectInfo) {
-		return projectInfoMapper.update(projectInfo);
-	}
-
-	public int deleteById(ProjectInfo projectInfo) {
-		return projectInfoMapper.deleteById(projectInfo.getId());
-	}
+    public int deleteById(ProjectInfo projectInfo) {
+        return projectInfoMapper.deleteById(projectInfo.getId());
+    }
 }

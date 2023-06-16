@@ -2,5 +2,5 @@ projectKey=TogaForm-0.1
 serverUrl=http://localhost:9000
 serverVersion=8.9.10.61524
 dashboardUrl=http://localhost:9000/dashboard?id=TogaForm-0.1
-ceTaskId=AYjEM2r3G2SN0U8BtdWz
-ceTaskUrl=http://localhost:9000/api/ce/task?id=AYjEM2r3G2SN0U8BtdWz
+ceTaskId=AYjET8exG2SN0U8BtdW4
+ceTaskUrl=http://localhost:9000/api/ce/task?id=AYjET8exG2SN0U8BtdW4

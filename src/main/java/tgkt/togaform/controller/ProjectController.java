@@ -21,12 +21,6 @@ public class ProjectController {
 		try {
 
 			var result = projectService.queryList(projectInfo);
-/*
-			resp = HttpResponse.builder()
-				.code("1")
-				.data(result)
-				.message("ok")
-				.build();*/
 			resp.setCode("1");
 			resp.setData(result);
 			resp.setMessage("ok");
