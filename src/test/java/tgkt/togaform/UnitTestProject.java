@@ -41,7 +41,7 @@ public class UnitTestProject {
 		projectController.addProject(pji);
 
 		pji.setProjectName("a");
-		pji = ((List<ProjectInfo>) (projectController.queryList(pji).getData())).get(0);
+		pji = (ProjectInfo) ((List<?>) (projectController.queryList(pji).getData())).get(0);
 		projectController.updateUser(pji);
 
 		pji.setId(null);
