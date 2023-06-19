@@ -30,7 +30,7 @@ class ProjectTest {
         log.info("Project模块>>列表请求测试1：返回所有，未通过");
 
         p.setId(null);
-        p.setProjectName("a");
+        p.setProjectName("g");
         Assertions.assertFalse(((List<ProjectInfo>)
                         (controller.queryList(p)
                                 .getData()))
@@ -66,7 +66,7 @@ class ProjectTest {
     @Test
     void add() {
         var p = new ProjectInfo();
-        p.setProjectName("test");
+        p.setProjectName("test1");
         Assertions.assertEquals(
                 controller.addProject(p).getCode(), "1");
         log.info("Project模块>>添加请求测试1：正常情况，通过");
@@ -88,7 +88,7 @@ class ProjectTest {
     void modify() {
         var p = new ProjectInfo();
         p = (ProjectInfo) ((List<?>) (controller.queryList(p).getData())).get(0);
-        p.setProjectName("a");
+        p.setProjectName("guagua");
         Assertions.assertEquals(
                 controller.updateUser(p).getCode(), "1");
         log.info("Project模块>>更新请求测试1：正常情况，通过");
