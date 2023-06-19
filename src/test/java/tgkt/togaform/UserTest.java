@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 import tgkt.togaform.controller.UserController;
 import tgkt.togaform.entity.ProjectInfo;
 import tgkt.togaform.entity.User;
+import tgkt.togaform.request.UserListRequest;
 import tgkt.togaform.response.HttpResponse;
 import tgkt.togaform.service.UserService;
 
@@ -26,7 +27,7 @@ public class UserTest {
 
     @Test
     void queryList() {
-        var u = new User();
+        var u = new UserListRequest();
         u.setUsername("啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊");
         // 该不会有人叫这个名吧
         Assertions.assertTrue(((List<User>)
@@ -79,8 +80,8 @@ public class UserTest {
 
     @Test
     void modify() {
-        var u = new User();
-        u = (User) ((List<?>) (controller.queryUserList(u).getData())).get(0);
+        var u = new UserListRequest();
+        u = (UserListRequest) ((List<?>) (controller.queryUserList(u).getData())).get(0);
         u.setUsername("admin");
         Assertions.assertEquals(
                 controller.updateUser(u).getCode(), "1");
@@ -109,14 +110,14 @@ public class UserTest {
 
     @Test
     void del() {
-        var u = new User();
+        var u = new UserListRequest();
         u.setId(null);
         Assertions.assertEquals(
                 controller.deleteUserById(u).getCode(), "0");
         log.info("User模块>>删除请求测试1：Id为null，通过");
 
         u.setUsername("test");
-        u = ((List<User>) controller.queryUserList(u).getData()).get(0);
+        u = (UserListRequest) ((List<User>) controller.queryUserList(u).getData()).get(0);
         Assertions.assertEquals("1",
                 controller.deleteUserById(u).getCode());
         log.info("User模块>>删除请求测试2：正常情况，通过");
