@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import tgkt.togaform.entity.User;
+import tgkt.togaform.request.UserListRequest;
+import tgkt.togaform.response.ListResponse;
 import tgkt.togaform.service.UserService;
 import tgkt.togaform.response.HttpResponse;
 
@@ -53,11 +55,11 @@ public class UserController {
 	}
 
 	@RequestMapping(value = "/queryList", method = RequestMethod.POST)
-	public HttpResponse queryUserList(@RequestBody User user) {
-		HttpResponse resp = new HttpResponse();
+	public HttpResponse queryUserList(@RequestBody UserListRequest req) {
+		ListResponse resp = new ListResponse();
 		try {
-			if (user == null) throw new Exception();
-			var result = userService.queryList(user);
+			if (req == null) throw new Exception();
+			var result = userService.queryList(req);
 			resp.setData(result);
 
 			if (result.isEmpty()) {
@@ -77,6 +79,8 @@ public class UserController {
                         .build();*/
 				resp.setCode("1");
 				resp.setMessage("查询成功");
+				resp.setCurrentPage(0);
+				resp.setTotalPage(0);
 			}
 		} catch (Exception e) {
             /*
@@ -200,6 +204,7 @@ public class UserController {
                     .code("0")
                     .message("请求错误")
                     .build();*/
+			e.printStackTrace();
 			resp.setCode("0");
 			resp.setMessage("请求错误");
 		}

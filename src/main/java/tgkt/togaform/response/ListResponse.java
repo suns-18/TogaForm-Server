@@ -5,7 +5,7 @@ import lombok.EqualsAndHashCode;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
-public class UserListResponse extends HttpResponse{
+public class ListResponse extends HttpResponse{
     private int currentPage;
     private int totalPage;
 }
