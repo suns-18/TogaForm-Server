@@ -36,7 +36,7 @@ public class UserTest {
                 , "User模块>>列表请求测试1：未查询到用户列表，未通过");
         log.info("User模块>>列表请求测试1：查询到用户列表，通过");
 
-        u.setUsername("k");
+        u.setUsername("g");
         Assertions.assertFalse(((List<User>)
                         (controller.queryUserList(u)
                                 .getData()))
@@ -59,7 +59,7 @@ public class UserTest {
     @Test
     void add() {
         var u = new User();
-        u.setUsername("test");
+        u.setUsername("test1");
         Assertions.assertEquals(
                 controller.addUser(u).getCode(), "1");
         log.info("User模块>>添加请求测试1：正常情况，通过");
@@ -81,7 +81,7 @@ public class UserTest {
     void modify() {
         var u = new User();
         u = (User) ((List<?>) (controller.queryUserList(u).getData())).get(0);
-        u.setUsername("a");
+        u.setUsername("admin");
         Assertions.assertEquals(
                 controller.updateUser(u).getCode(), "1");
         log.info("User模块>>更新请求测试1：正常情况，通过");
@@ -136,7 +136,7 @@ public class UserTest {
 
         var u = new User();
         u.setUsername("admin");
-        u.setPassword("admin");
+        u.setPassword("123");
         Assertions.assertNotNull(controller.userLogin(u),
                 "User模块>>登陆请求测试1：正常情况，未通过");
         log.info("User模块>>登陆请求测试1：正常情况，通过");
