@@ -10,8 +10,8 @@ import tgkt.togaform.entity.Project;
 @Mapper
 public interface ProjectMapper {
     int insert(Project row);
-    int update(Project row);
     int deleteById(String id);
+    int update(Project row);
     Project selectById(Project p);
     List<Project> selectAll(Project p);
     List<Project> selectByProjectName(Project p);
