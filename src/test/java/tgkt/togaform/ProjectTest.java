@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import tgkt.togaform.controller.ProjectController;
-import tgkt.togaform.entity.ProjectInfo;
+import tgkt.togaform.entity.Project;
 import tgkt.togaform.service.ProjectService;
 
 import java.util.List;
@@ -21,8 +21,8 @@ class ProjectTest {
 
     @Test
     void queryList() {
-        var p = new ProjectInfo();
-        Assertions.assertFalse(((List<ProjectInfo>)
+        var p = new Project();
+        Assertions.assertFalse(((List<Project>)
                         (controller.queryList(p)
                                 .getData()))
                         .isEmpty()
@@ -31,7 +31,7 @@ class ProjectTest {
 
         p.setId(null);
         p.setProjectName("g");
-        Assertions.assertFalse(((List<ProjectInfo>)
+        Assertions.assertFalse(((List<Project>)
                         (controller.queryList(p)
                                 .getData()))
                         .isEmpty()
@@ -43,9 +43,9 @@ class ProjectTest {
 
     @Test
     void querySingle() {
-        var p = new ProjectInfo();
+        var p = new Project();
         p.setId("11111111111");
-        Assertions.assertTrue(((List<ProjectInfo>)
+        Assertions.assertTrue(((List<Project>)
                         (controller.queryList(p)
                                 .getData()))
                         .isEmpty()
@@ -53,7 +53,7 @@ class ProjectTest {
         log.info("Project模块>>单个请求测试1：不存在的Id，通过");
 
         p.setId("028b57c425f5da70b35f89376dbc4c09");
-        Assertions.assertFalse(((List<ProjectInfo>)
+        Assertions.assertFalse(((List<Project>)
                         (controller.queryList(p)
                                 .getData()))
                         .isEmpty()
@@ -65,20 +65,20 @@ class ProjectTest {
 
     @Test
     void add() {
-        var p = new ProjectInfo();
+        var p = new Project();
         p.setProjectName("test1");
         Assertions.assertEquals(
-                controller.addProject(p).getCode(), "1");
+                controller.add(p).getCode(), "1");
         log.info("Project模块>>添加请求测试1：正常情况，通过");
 
         p.setProjectName(null);
         Assertions.assertEquals(
-                controller.addProject(p).getCode(), "0");
+                controller.add(p).getCode(), "0");
         log.info("Project模块>>添加请求测试2：工程名为null，通过");
 
         p.setProjectName("");
         Assertions.assertEquals(
-                controller.addProject(p).getCode(), "0");
+                controller.add(p).getCode(), "0");
         log.info("Project模块>>添加请求测试3：工程名为空字符串，通过");
 
         log.info("Project模块>>添加请求测试通过");
@@ -86,29 +86,29 @@ class ProjectTest {
 
     @Test
     void modify() {
-        var p = new ProjectInfo();
-        p = (ProjectInfo) ((List<?>) (controller.queryList(p).getData())).get(0);
+        var p = new Project();
+        p = (Project) ((List<?>) (controller.queryList(p).getData())).get(0);
         p.setProjectName("guagua");
         Assertions.assertEquals(
-                controller.updateUser(p).getCode(), "1");
+                controller.modify(p).getCode(), "1");
         log.info("Project模块>>更新请求测试1：正常情况，通过");
 
         p.setId(null);
         p.setProjectName(null);
         Assertions.assertEquals(
-                controller.updateUser(p).getCode(), "0");
+                controller.modify(p).getCode(), "0");
         log.info("Project模块>>更新请求测试2：Id和所修改字段新值均为null，通过");
 
         p.setId("");
         p.setProjectName(null);
         Assertions.assertEquals(
-                controller.updateUser(p).getCode(), "0");
+                controller.modify(p).getCode(), "0");
         log.info("Project模块>>更新请求测试3：Id为空串，所修改字段新值为null，通过");
 
         p.setId("114514");
         p.setProjectName(null);
         Assertions.assertEquals(
-                controller.updateUser(p).getCode(), "0");
+                controller.modify(p).getCode(), "0");
         log.info("Project模块>>更新请求测试4：不存在的Id，通过");
 
         log.info("Project模块>>更新请求测试通过");
@@ -116,21 +116,21 @@ class ProjectTest {
 
     @Test
     void del() {
-        var p = new ProjectInfo();
+        var p = new Project();
         p.setId(null);
         Assertions.assertEquals(
-                controller.deleteUserById(p).getCode(), "0");
+                controller.deleteById(p).getCode(), "0");
         log.info("Project模块>>删除请求测试1：Id为null，通过");
 
         p.setProjectName("test");
-        p= ((List<ProjectInfo>) controller.queryList(p).getData()).get(0);
+        p= ((List<Project>) controller.queryList(p).getData()).get(0);
         Assertions.assertEquals(
-                controller.deleteUserById(p).getCode(), "1");
+                controller.deleteById(p).getCode(), "1");
         log.info("Project模块>>删除请求测试2：正常情况，通过");
 
         p.setId("oooooooooooooooooooooooooooooooo");
         Assertions.assertEquals(
-                controller.deleteUserById(p).getCode(), "0");
+                controller.deleteById(p).getCode(), "0");
         log.info("Project模块>>删除请求测试3：不存在的Id，通过");
 
         log.info("Project模块>>删除请求测试通过");
