@@ -9,9 +9,11 @@ import java.util.List;
 @Mapper
 @Repository
 public interface UserMapper {
-    List<User> queryList(User user);
-    List<User> verify(User user);
     int insert(User user);
-    int update(User user);
     int deleteById(User user);
+    int deleteByName(User user);
+    int update(User user);
+    User selectById(User user);
+    List<User> selectAll(User user);
+    User verify(User user);
 }

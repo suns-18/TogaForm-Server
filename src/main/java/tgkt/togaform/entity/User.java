@@ -10,7 +10,6 @@ public class User implements Serializable {
     private String id;
     private String username;
     private String password;
-    private String roleId;
 
     private Date startTime;
     private Date stopTime;
@@ -21,5 +20,6 @@ public class User implements Serializable {
     private Date creationDate;
 
     private String lastUpdatedBy;
-    private Date lastUpdatedDate;
+    private Date lastUpdateDate;
+
 }

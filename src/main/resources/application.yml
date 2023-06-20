@@ -14,6 +14,7 @@ spring:
   freemarker:
     cache: false
 
+
 mybatis:
   type-aliases-package: tgkt.togaform
   mapper-locations: classpath:mapper/*Mapper.xml

@@ -1,0 +1,17 @@
+### Login-OK
+POST http://127.0.0.1:8085/api/user/login
+Content-Type: application/json
+
+{
+  "username": "admin",
+  "password": "admin"
+}
+
+### Login-Failed
+POST http://127.0.0.1:8085/api/user/login
+Content-Type: application/json
+
+{
+  "username": "adm",
+  "password": "admin"
+}
