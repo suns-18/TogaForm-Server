@@ -23,11 +23,11 @@ class BaseTest {
 
     @Test
     void httpResp() {
-        var h = new HttpResponse();
-        h.setData("111");
-        h.setCode("111");
-        h.setMessage("111");
-        Assertions.assertEquals(h.getCode(), "111");
+        var h = HttpResponse.builder().
+        data("111").
+        code(1).
+        message("111").build();
+        Assertions.assertEquals(h.getCode(), 1);
         Assertions.assertEquals(h.getMessage(), "111");
         Assertions.assertEquals(h.getData(), "111");
     }
