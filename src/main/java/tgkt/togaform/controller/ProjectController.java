@@ -5,126 +5,133 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-import tgkt.togaform.entity.ProjectInfo;
+import tgkt.togaform.entity.Project;
 import tgkt.togaform.response.HttpResponse;
 import tgkt.togaform.service.ProjectService;
 
 @RestController
 @RequestMapping(value = "/api/project")
 public class ProjectController {
-	@Autowired
-	private ProjectService projectService;
+    @Autowired
+    private ProjectService projectService;
 
-	@RequestMapping(value = "/queryList", method = RequestMethod.POST)
-	public HttpResponse queryList(@RequestBody ProjectInfo projectInfo) {
-		HttpResponse resp = new HttpResponse();
-		try {
+    @RequestMapping(value = "/add", method = RequestMethod.POST)
+    public HttpResponse add(@RequestBody Project project) {
+        HttpResponse resp;
+        try {
+            var result = projectService.insert(project);
 
-			var result = projectService.queryList(projectInfo);
-			resp.setCode("1");
-			resp.setData(result);
-			resp.setMessage("ok");
-		} catch (Exception e) {
-			/*
-			e.printStackTrace();
-			resp = HttpResponse.builder()
-				.code("0")
-				.message("请求错误")
-				.build();*/
-			resp.setCode("0");
-			resp.setMessage("请求错误");
-		}
+            if (result != 0) {
+                resp = HttpResponse.builder()
+                        .code(1)
+                        .message("添加成功")
+                        .build();
+            } else {
+                resp = HttpResponse.builder()
+                        .code(0)
+                        .message("添加失败")
+                        .build();
+            }
 
-		return resp;
-	}
+        } catch (Exception e) {
+            resp = HttpResponse.builder()
+                    .code(0)
+                    .message("参数错误")
+                    .build();
+        }
+        return resp;
+    }
 
-	@RequestMapping(value = "/addProject", method = RequestMethod.POST)
-	public HttpResponse addProject(@RequestBody ProjectInfo projectInfo) {
-		HttpResponse resp = new HttpResponse();
-		try {
-			var result = projectService.insert(projectInfo);
+    @RequestMapping(value = "/delete", method = RequestMethod.POST)
+    public HttpResponse deleteById(@RequestBody Project project) {
+        HttpResponse resp;
+        try {
+            if (project.getId() == null) throw new RuntimeException();
+            var result = projectService.deleteById(project);
 
-			if (result != 0) {
-				resp.setCode("1");
-				resp.setMessage("添加成功");
-			} else {
-				resp.setCode("0");
-				resp.setMessage("添加失败");
-			}
+            if (result != 0) {
+                resp = HttpResponse.builder()
+                        .code(1)
+                        .message("删除成功")
+                        .build();
+            } else {
+                resp = HttpResponse.builder()
+                        .code(0)
+                        .message("删除失败")
+                        .build();
+            }
+        } catch (Exception e) {
+            resp = HttpResponse.builder()
+                    .code(0)
+                    .message("请求错误")
+                    .build();
+        }
+        return resp;
+    }
 
-		} catch (Exception e) {
-			resp.setCode("0");
-			resp.setMessage("请求错误");
-		}
-		return resp;
-	}
+    @RequestMapping(value = "/modify", method = RequestMethod.POST)
+    public HttpResponse modify(@RequestBody Project project) {
+        HttpResponse resp;
+        try {
+            if (project.getId() == null)
+                throw new RuntimeException();
+            var result = projectService.update(project);
 
-	@RequestMapping(value = "/updateProject", method = RequestMethod.POST)
-	public HttpResponse updateUser(@RequestBody ProjectInfo projectInfo) {
-		HttpResponse resp = new HttpResponse();
-		try {
-			if (projectInfo.getId() == null) throw new RuntimeException();
-			var result = projectService.update(projectInfo);
+            if (result != 0) {
+                resp = HttpResponse.builder()
+                        .code(1)
+                        .message("修改成功")
+                        .build();
+            } else {
+                resp = HttpResponse.builder()
+                        .code(0)
+                        .message("修改失败")
+                        .build();
+            }
+        } catch (Exception e) {
+            resp = HttpResponse.builder()
+                    .code(0)
+                    .message("请求错误")
+                    .build();
+        }
+        return resp;
+    }
 
-			if (result != 0) {
-				resp.setCode("1");
-				resp.setMessage("修改成功");
-			}/*
-				resp = HttpResponse.builder()
-					.code("1")
-					.message("修改成功")
-					.build();*/ else {
-				resp.setCode("0");
-				resp.setMessage("修改失败");
-			}/*
-				resp = HttpResponse.builder()
-					.code("0")
-					.message("修改失败")
-					.build();*/
+    @RequestMapping(value = "/queryById", method = RequestMethod.POST)
+    public HttpResponse queryById(@RequestBody Project project) {
+        HttpResponse resp;
+        try {
+            var result = projectService.selectById(project);
+            resp = HttpResponse.builder()
+                    .code(1)
+                    .message("查询成功")
+                    .data(result)
+                    .build();
+        } catch (Exception e) {
+            resp = HttpResponse.builder()
+                    .code(0)
+                    .message("请求错误")
+                    .build();
+        }
+        return resp;
+    }
 
-		} catch (Exception e) {
-			/*
-			resp = HttpResponse.builder()
-				.code("0")
-				.message("请求错误")
-				.build();*/
-			resp.setCode("0");
-			resp.setMessage("请求错误");
-		}
-		return resp;
-	}
-
-	@RequestMapping(value = "/deleteProject", method = RequestMethod.POST)
-	public HttpResponse deleteUserById(@RequestBody ProjectInfo projectInfo) {
-		HttpResponse resp = new HttpResponse();
-		try {
-			if (projectInfo.getId() == null) throw new RuntimeException();
-			var result = projectService.deleteById(projectInfo);
-
-			if (result != 0) {
-				resp.setCode("1");
-				resp.setMessage("删除成功");
-			}/*
-				resp = HttpResponse.builder()
-					.code("1")
-					.message("删除成功")
-					.build();*/ else {
-				resp.setCode("0");
-				resp.setMessage("删除失败");
-			}/*
-				resp = HttpResponse.builder()
-					.code("0")
-					.message("删除失败")
-					.build();*/
-
-		} catch (Exception e) {/*
-			resp = HttpResponse.builder()
-				.code("0")
-				.message("请求错误")
-				.build();*/
-			resp.setCode("0");
-			resp.setMessage("请求错误");
-		}
-		return resp;
-	}
+    @RequestMapping(value = "/queryList", method = RequestMethod.POST)
+    public HttpResponse queryList(@RequestBody Project project) {
+        HttpResponse resp;
+        try {
+            var result = projectService.selectAll(project);
+            resp = HttpResponse.builder()
+                    .code(1)
+                    .message("查询成功")
+                    .data(result)
+                    .build();
+        } catch (Exception e) {
+            resp = HttpResponse.builder()
+                    .code(0)
+                    .message("请求错误")
+                    .build();
+        }
+        return resp;
+    }
 }

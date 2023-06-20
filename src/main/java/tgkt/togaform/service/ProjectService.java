@@ -2,8 +2,8 @@ package tgkt.togaform.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import tgkt.togaform.entity.ProjectInfo;
-import tgkt.togaform.mapper.ProjectInfoMapper;
+import tgkt.togaform.entity.Project;
+import tgkt.togaform.mapper.ProjectMapper;
 import tgkt.togaform.util.UUIDUtil;
 
 import java.util.List;
@@ -11,37 +11,31 @@ import java.util.List;
 @Service
 public class ProjectService {
     @Autowired
-    private ProjectInfoMapper projectInfoMapper;
+    private ProjectMapper projectMapper;
 
-    public List<ProjectInfo> queryList(ProjectInfo projectInfo) {
-
-        if (projectInfo.getId() != null &&
-                !projectInfo.getId().isEmpty())
-            return projectInfoMapper.queryById(projectInfo);
-
-        if (projectInfo.getProjectName() != null &&
-                !projectInfo.getProjectName().isEmpty())
-            return projectInfoMapper.queryByProjectName(projectInfo);
-
-        return projectInfoMapper.queryAll(projectInfo);
+    public int insert(Project project) throws NullPointerException {
+        if (project.getProjectName().isEmpty())
+            return 0;
+        project.setId(UUIDUtil.getOneUUID());
+        return projectMapper.insert(project);
     }
 
-    public int insert(ProjectInfo projectInfo) throws NullPointerException {
-        try {
-            if (projectInfo.getProjectName().isEmpty())
-                return 0;
-            projectInfo.setId(UUIDUtil.getOneUUID());
-            return projectInfoMapper.insert(projectInfo);
-        } catch (NullPointerException e) {
-            throw e;
-        }
+    public int deleteById(Project project) {
+        return projectMapper.deleteById(project.getId());
     }
 
-    public int update(ProjectInfo projectInfo) {
-        return projectInfoMapper.update(projectInfo);
+    public int update(Project project) {
+        return projectMapper.update(project);
     }
 
-    public int deleteById(ProjectInfo projectInfo) {
-        return projectInfoMapper.deleteById(projectInfo.getId());
+    public Project selectById(Project project) {
+        return projectMapper.selectById(project);
+    }
+    public List<Project> selectAll(Project project) {
+        if (project.getProjectName() != null &&
+                !project.getProjectName().isEmpty())
+            return projectMapper.selectByProjectName(project);
+
+        return projectMapper.selectAll(project);
     }
 }
