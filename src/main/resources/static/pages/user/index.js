@@ -47,14 +47,14 @@ const deleteUser = (id) => {
         id: id
     }
     $.ajax({
-        url: API_BASE_URL + '/api/user/deleteUser',
+        url: API_BASE_URL + '/api/user/delete',
         type: 'POST',
         data: JSON.stringify(params),
         dataType: 'json',
         contentType: 'application/json',
         success(res) {
             alert(res.message)
-            if (res.code === '1')
+            if (res.code === 1)
                 fetchUserList()
         }
     })
