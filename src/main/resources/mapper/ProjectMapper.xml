@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="tgkt.togaform.mapper.ProjectInfoMapper">
-  <resultMap id="BaseResultMap" type="tgkt.togaform.entity.ProjectInfo">
+<mapper namespace="tgkt.togaform.mapper.ProjectMapper">
+  <resultMap id="BaseResultMap" type="tgkt.togaform.entity.Project">
     <id column="id" jdbcType="VARCHAR" property="id" />
     <result column="user_id" jdbcType="VARCHAR" property="userId" />
     <result column="project_name" jdbcType="VARCHAR" property="projectName" />
@@ -9,15 +9,13 @@
     <result column="creation_date" jdbcType="TIMESTAMP" property="creationDate" />
     <result column="last_updated_by" jdbcType="CHAR" property="lastUpdatedBy" />
     <result column="last_update_date" jdbcType="TIMESTAMP" property="lastUpdateDate" />
-    <result column="project_content" jdbcType="LONGVARCHAR" property="projectContent" />
   </resultMap>
   <delete id="deleteById" parameterType="java.lang.String">
     
     delete from project_info
     where id = #{id,jdbcType=VARCHAR}
   </delete>
-  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="tgkt.togaform.entity.ProjectInfo" useGeneratedKeys="true">
-    
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="tgkt.togaform.entity.Project" useGeneratedKeys="true">
     insert into project_info (id, user_id, project_name, created_by,
       creation_date, last_updated_by, last_update_date, 
       project_content)
@@ -25,7 +23,7 @@
       #{creationDate,jdbcType=TIMESTAMP}, #{lastUpdatedBy,jdbcType=CHAR}, #{lastUpdateDate,jdbcType=TIMESTAMP}, 
       #{projectContent,jdbcType=LONGVARCHAR})
   </insert>
-  <update id="update" parameterType="tgkt.togaform.entity.ProjectInfo">
+  <update id="update" parameterType="tgkt.togaform.entity.Project">
     
     update project_info
       <set>
@@ -39,21 +37,19 @@
       </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>
-  <select id="queryAll" resultMap="BaseResultMap">
+  <select id="selectAll" resultMap="BaseResultMap">
       select *
       from project_info
     <if test="createdBy!=null">
       where created_by = #{createdBy,jdbcType=CHAR}
     </if>
   </select>
-  <select id="queryById" resultMap="BaseResultMap">
-      select id, user_id, project_name, created_by,
-      creation_date, last_updated_by, last_update_date,
-      project_content
+  <select id="selectById" resultMap="BaseResultMap">
+      select *
       from project_info
       where id = #{id}
   </select>
-  <select id="queryByProjectName" resultMap="BaseResultMap">
+  <select id="selectByProjectName" resultMap="BaseResultMap">
       select *
       from project_info
       where project_name like '%${projectName}%'
