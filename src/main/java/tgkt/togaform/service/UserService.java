@@ -10,33 +10,29 @@ import java.util.List;
 
 @Service
 public class UserService {
-	@Autowired
-	private UserMapper userMapper;
+    @Autowired
+    private UserMapper userMapper;
 
-	public List<User> queryList(User user) {
-		return userMapper.queryList(user);
-	}
+    public List<User> queryList(User user) {
+        return userMapper.selectAll(user);
+    }
 
-	public List<User> verify(User user) throws Exception {
-		return userMapper.verify(user);
-	}
+    public User verify(User user) {
+        return userMapper.verify(user);
+    }
 
-	public int insert(User user) throws NullPointerException {
-		if(user.getUsername().isEmpty())
-			return 0;
-		user.setId(UUIDUtil.getOneUUID());
-		return userMapper.insert(user);
-	}
+    public int insert(User user) throws NullPointerException {
+        if (user.getUsername().isEmpty())
+            return 0;
+        user.setId(UUIDUtil.getOneUUID());
+        return userMapper.insert(user);
+    }
 
-	public int update(User user) {
-		return userMapper.update(user);
-	}
+    public int update(User user) {
+        return userMapper.update(user);
+    }
 
-	public int deleteById(User user) throws Exception {
-		return userMapper.deleteById(user);
-	}
-
-	public int deleteByName(User user) throws Exception {
-		return userMapper.deleteByName(user);
-	}
+    public int deleteById(User user) {
+        return userMapper.deleteById(user);
+    }
 }

@@ -6,25 +6,25 @@
 <mapper namespace="tgkt.togaform.mapper.UserMapper">
 
     <resultMap id="BRM" type="tgkt.togaform.entity.User">
-        <id column="id" jdbcType="VARCHAR" property="id" />
-        <result column="username" jdbcType="VARCHAR" property="username" />
-        <result column="password" jdbcType="VARCHAR" property="password" />
-        <result column="start_time" jdbcType="TIMESTAMP" property="startTime" />
-        <result column="stop_time" jdbcType="TIMESTAMP" property="stopTime" />
-        <result column="status" jdbcType="VARCHAR" property="status" />
-        <result column="created_by" jdbcType="VARCHAR" property="createdBy" />
-        <result column="creation_date" jdbcType="TIMESTAMP" property="creationDate" />
-        <result column="last_updated_by" jdbcType="VARCHAR" property="lastUpdatedBy" />
-        <result column="last_update_date" jdbcType="TIMESTAMP" property="lastUpdateDate" />
+        <id column="id" jdbcType="VARCHAR" property="id"/>
+        <result column="username" jdbcType="VARCHAR" property="username"/>
+        <result column="password" jdbcType="VARCHAR" property="password"/>
+        <result column="start_time" jdbcType="TIMESTAMP" property="startTime"/>
+        <result column="stop_time" jdbcType="TIMESTAMP" property="stopTime"/>
+        <result column="status" jdbcType="VARCHAR" property="status"/>
+        <result column="created_by" jdbcType="VARCHAR" property="createdBy"/>
+        <result column="creation_date" jdbcType="TIMESTAMP" property="creationDate"/>
+        <result column="last_updated_by" jdbcType="VARCHAR" property="lastUpdatedBy"/>
+        <result column="last_update_date" jdbcType="TIMESTAMP" property="lastUpdateDate"/>
     </resultMap>
 
-    <sql id="allColumns">
-        id, username, password, start_time, stop_time, status, created_by, creation_date, last_updated_by,
+    <sql id="safeColumns">
+        id, username, start_time, stop_time, status, created_by, creation_date, last_updated_by,
         last_updated_date
     </sql>
-    <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BRM">
+    <select id="selectById" parameterType="java.lang.String" resultMap="BRM">
         select
-        <include refid="allColumns"/>
+        <include refid="safeColumns"/>
         from `user_info` where id = #{id,jdbcType=VARCHAR}
     </select>
     <delete id="deleteById" parameterType="java.lang.String">
@@ -78,13 +78,15 @@
     </update>
     <select id="verify" parameterType="java.lang.String"
             resultMap="BRM">
-        SELECT id, username,status FROM `user_info`
+        SELECT id, username FROM `user_info`
         WHERE username = #{username,jdbcType=VARCHAR}
         AND `password` = #{password,jdbcType=VARCHAR}
         AND status = "1"
     </select>
-    <select id="queryList" resultMap="BRM" parameterType="java.lang.String">
-        SELECT * FROM `user_info`
+    <select id="selectAll" resultMap="BRM" parameterType="java.lang.String">
+        SELECT
+        <include refid="safeColumns"/>
+        FROM `user_info`
         <if test="username != null">
             where username like '%${username}%'
         </if>
