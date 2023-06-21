@@ -13,6 +13,12 @@ spring:
       additional-exclude: WEB-INF/**
   freemarker:
     cache: false
+  data:
+    mongodb:
+      database: togaform
+      host: 127.0.0.1
+      port: 27017
+      authentication-database: admin
 
 
 mybatis:
