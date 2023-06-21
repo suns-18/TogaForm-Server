@@ -8,7 +8,6 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 @Data
 public class ListResponse extends HttpResponse{
-    private int totalCount;
-    private int pageIndex;
+    private int totalPage;
     private int currentPage;
 }
