@@ -10,8 +10,12 @@ import org.springframework.http.HttpStatus;
 public class ErrorPageConf implements ErrorPageRegistrar {
     @Override
     public void registerErrorPages(ErrorPageRegistry registry) {
-        var page404 = new ErrorPage(HttpStatus.NOT_FOUND,"/404.html");
-
+        var page404 = new ErrorPage(HttpStatus.NOT_FOUND,
+                "/error/404.html");
         registry.addErrorPages(page404);
+
+        var page405 = new ErrorPage(HttpStatus.METHOD_NOT_ALLOWED,
+                "/error/405.html");
+        registry.addErrorPages(page405);
     }
 }
