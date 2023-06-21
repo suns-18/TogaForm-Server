@@ -1,14 +1,14 @@
 package tgkt.togaform.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import tgkt.togaform.entity.Quesnaire;
+import tgkt.togaform.request.QuesnaireListRequest;
 import tgkt.togaform.response.HttpResponse;
 import tgkt.togaform.response.ListResponse;
 import tgkt.togaform.service.QuesnaireService;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/quesnaire")
@@ -16,8 +16,8 @@ public class QuesnaireController {
     @Autowired
     private QuesnaireService service;
 
-    @RequestMapping(value = "/add",
-            method = RequestMethod.POST)
+
+    @PostMapping(value = "/add")
     public HttpResponse add(@RequestBody Quesnaire q) {
         HttpResponse resp;
         try {
@@ -42,12 +42,11 @@ public class QuesnaireController {
         return resp;
     }
 
-    @RequestMapping(value = "/del",
-            method = RequestMethod.POST)
+    @PostMapping(value = "/del")
     public HttpResponse deleteById(@RequestBody Quesnaire q) {
         HttpResponse resp;
         try {
-            var result = service.delete(q);
+            var result = service.deleteById(q);
             if (result == 0)
                 resp = HttpResponse.builder()
                         .code(0)
@@ -68,23 +67,21 @@ public class QuesnaireController {
         return resp;
     }
 
-    @RequestMapping(value = "/modify",
-            method = RequestMethod.POST)
+    @PostMapping(value = "/modify")
     public HttpResponse modify(@RequestBody Quesnaire q) {
         HttpResponse resp;
         try {
             var result = service.update(q);
-            if (result == 0) {
+            if (result == 0)
                 resp = HttpResponse.builder()
                         .code(0)
                         .message("修改失败")
                         .build();
-            }
-
-            resp = HttpResponse.builder()
-                    .code(1)
-                    .message("修改成功")
-                    .build();
+            else
+                resp = HttpResponse.builder()
+                        .code(1)
+                        .message("修改成功")
+                        .build();
         } catch (Exception e) {
             resp = HttpResponse.builder()
                     .code(0)
@@ -95,8 +92,7 @@ public class QuesnaireController {
         return resp;
     }
 
-    @RequestMapping(value = "/queryById",
-            method = RequestMethod.POST)
+    @PostMapping(value = "/queryById")
     public HttpResponse queryById(@RequestBody Quesnaire q) {
         HttpResponse resp;
         try {
@@ -124,25 +120,20 @@ public class QuesnaireController {
 
     @RequestMapping(value = "/queryByProject",
             method = RequestMethod.POST)
-    public HttpResponse queryByProject(@RequestBody Quesnaire q) {
+    public HttpResponse queryByProject(@RequestBody QuesnaireListRequest req) {
         HttpResponse resp;
 
         try {
-            var result = service.selectByProject(q);
-            if (result == null)
-                resp = ListResponse.builder()
-                        .code(1)
-                        .message("列表为空")
-                        .build();
-            else
-                resp = ListResponse.builder()
-                        .code(1)
-                        .data(result)
-                        .message("查询成功")
-                        .currentPage(0)
-                        .totalPage(0)
-                        .build();
+            resp = service.selectByProject(req);
+            if (((List<Quesnaire>) (resp.getData())).isEmpty()) {
+                resp.setCode(1);
+                resp.setMessage("列表为空");
+            } else {
+                resp.setCode(1);
+                resp.setMessage("查询成功");
+            }
         } catch (Exception e) {
+            e.printStackTrace();
             resp = HttpResponse.builder()
                     .code(0)
                     .message("数据库访问错误")
