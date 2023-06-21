@@ -4,38 +4,42 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import tgkt.togaform.entity.Project;
 import tgkt.togaform.mapper.ProjectMapper;
+import tgkt.togaform.request.ProjectListRequest;
+import tgkt.togaform.response.ListResponse;
 import tgkt.togaform.util.UUIDUtil;
-
-import java.util.List;
 
 @Service
 public class ProjectService {
     @Autowired
-    private ProjectMapper projectMapper;
+    private ProjectMapper mapper;
 
     public int insert(Project project) throws NullPointerException {
         if (project.getProjectName().isEmpty())
             return 0;
         project.setId(UUIDUtil.getOneUUID());
-        return projectMapper.insert(project);
+        return mapper.insert(project);
     }
 
     public int deleteById(Project project) {
-        return projectMapper.deleteById(project.getId());
+        return mapper.deleteById(project.getId());
     }
 
     public int update(Project project) {
-        return projectMapper.update(project);
+        return mapper.update(project);
     }
 
     public Project selectById(Project project) {
-        return projectMapper.selectById(project);
+        return mapper.selectById(project);
     }
-    public List<Project> selectAll(Project project) {
-        if (project.getProjectName() != null &&
-                !project.getProjectName().isEmpty())
-            return projectMapper.selectByProjectName(project);
+    public ListResponse selectAll(ProjectListRequest req) {
+        var list = mapper.selectAll(req);
+        var totalCount = mapper.countAll(req);
+        var newPage = (req.getStart() / 10) + 1;
 
-        return projectMapper.selectAll(project);
+        return ListResponse.builder()
+                .totalPage(totalCount / 10 + 1)
+                .data(list)
+                .currentPage(newPage)
+                .build();
     }
 }

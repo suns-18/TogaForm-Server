@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import tgkt.togaform.entity.Project;
+import tgkt.togaform.request.ProjectListRequest;
 import tgkt.togaform.response.HttpResponse;
 import tgkt.togaform.service.ProjectService;
 
@@ -63,7 +64,7 @@ public class ProjectController {
         } catch (Exception e) {
             resp = HttpResponse.builder()
                     .code(0)
-                    .message("请求错误")
+                    .message("数据库访问错误")
                     .build();
         }
         return resp;
@@ -91,7 +92,7 @@ public class ProjectController {
         } catch (Exception e) {
             resp = HttpResponse.builder()
                     .code(0)
-                    .message("请求错误")
+                    .message("数据库访问错误")
                     .build();
         }
         return resp;
@@ -110,26 +111,24 @@ public class ProjectController {
         } catch (Exception e) {
             resp = HttpResponse.builder()
                     .code(0)
-                    .message("请求错误")
+                    .message("数据库访问错误")
                     .build();
         }
         return resp;
     }
 
     @RequestMapping(value = "/queryList", method = RequestMethod.POST)
-    public HttpResponse queryList(@RequestBody Project project) {
+    public HttpResponse queryList(@RequestBody ProjectListRequest req) {
         HttpResponse resp;
         try {
-            var result = projectService.selectAll(project);
-            resp = HttpResponse.builder()
-                    .code(1)
-                    .message("查询成功")
-                    .data(result)
-                    .build();
+            resp = projectService.selectAll(req);
+            resp.setCode(1);
+            resp.setMessage("查询成功");
         } catch (Exception e) {
+            e.printStackTrace();
             resp = HttpResponse.builder()
                     .code(0)
-                    .message("请求错误")
+                    .message("数据库访问错误")
                     .build();
         }
         return resp;
