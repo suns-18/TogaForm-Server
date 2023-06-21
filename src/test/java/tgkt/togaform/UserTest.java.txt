@@ -28,7 +28,7 @@ public class UserTest {
         u.setUsername("啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊");
         // 该不会有人叫这个名吧
         Assertions.assertTrue(((List<User>)
-                        (controller.queryUserList(u)
+                        (controller.queryList(u)
                                 .getData()))
                         .isEmpty()
                 , "User模块>>列表请求测试1：未查询到用户列表，未通过");
@@ -36,7 +36,7 @@ public class UserTest {
 
         u.setUsername("g");
         Assertions.assertFalse(((List<User>)
-                        (controller.queryUserList(u)
+                        (controller.queryList(u)
                                 .getData()))
                         .isEmpty()
                 , "User模块>>列表请求测试2：根据用户名模糊查询，未通过");
@@ -45,7 +45,7 @@ public class UserTest {
 
         u.setUsername(null);
         Assertions.assertFalse(((List<User>)
-                        (controller.queryUserList(u)
+                        (controller.queryList(u)
                                 .getData()))
                         .isEmpty()
                 , "User模块>>列表请求测试3：用户名为null，未通过");
@@ -78,7 +78,7 @@ public class UserTest {
     @Test
     void modify() {
         var u = new UserListRequest();
-        u = (UserListRequest) ((List<?>) (controller.queryUserList(u).getData())).get(0);
+        u = (UserListRequest) ((List<?>) (controller.queryList(u).getData())).get(0);
         u.setUsername("admin");
         Assertions.assertEquals(
                 controller.modify(u).getCode(), "1");
@@ -114,7 +114,7 @@ public class UserTest {
         log.info("User模块>>删除请求测试1：Id为null，通过");
 
         u.setUsername("test");
-        u = (UserListRequest) ((List<User>) controller.queryUserList(u).getData()).get(0);
+        u = (UserListRequest) ((List<User>) controller.queryList(u).getData()).get(0);
         Assertions.assertEquals(1,
                 controller.deleteById(u).getCode());
         log.info("User模块>>删除请求测试2：正常情况，通过");
