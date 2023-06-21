@@ -2,6 +2,15 @@
 
 # MongoDB数据结构设计
 
+Template
+
+| 字段名         | 类型       | 说明     |
+|-------------|----------|--------|
+| title       | string   | 模板名称   |
+| createTime  | string   | 创建日期   |
+| description | string   | 模板描述   |
+| questions   | string[] | 问题Id集合 |
+
 Quesnaire
 
 | 字段名         | 类型       | 说明                  |
@@ -15,13 +24,21 @@ Quesnaire
 
 Question
 
-| 字段名         | 类型      | 说明                         |
-|-------------|---------|----------------------------|
-| title       | string  | 问题标题                       |
-| required    | boolean | 是否必答                       |
-| description | string  | 问题描述                       |
-| answerType  | number  | 问题类型ID(见enum_answer_type表) |
-| template    | string  | 模板ID，默认为“0”                |
+| 字段名             | 类型                | 说明                         |
+|-----------------|-------------------|----------------------------|
+| title           | string            | 问题标题                       |
+| required        | boolean           | 是否必答                       |
+| description     | string            | 问题描述                       |
+| answerType      | number            | 问题类型ID(见enum_answer_type表) |
+| answerSelection | AnswerSelection[] | 答案选项集合（单选、多选、矩阵）           |
+| template        | string            | 模板ID，默认为“0”                |
+
+=>AnswerSelection
+
+| 字段名   | 类型     | 说明            |
+|-------|--------|---------------|
+| key   | string | 选项标识（ABC）或矩阵列 |
+| value | string | 选项内容或者矩阵行     |
 
 Answer
 
@@ -34,7 +51,7 @@ Answer
 
 => AnswerItem
 
-| 字段名        | 类型     | 说明   |
-|------------|--------|------|
-| questionId | string | 问题Id |
-| answer     | any    | 答案内容 |
+| 字段名        | 类型              | 说明   |
+|------------|-----------------|------|
+| questionId | string          | 问题Id |
+| answer     | AnswerSelection | 答案内容 |

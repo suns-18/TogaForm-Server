@@ -19,6 +19,8 @@ public class Quesnaire {
     private String title;
 
     private Date createTime;
+    private Date startTime;
+    private Date endTime;
 
     private String surveyType;
     private String description;
