@@ -140,8 +140,7 @@ public class QuesnaireController {
                         .data(result)
                         .message("查询成功")
                         .currentPage(0)
-                        .pageIndex(0)
-                        .totalCount(0)
+                        .totalPage(0)
                         .build();
         } catch (Exception e) {
             resp = HttpResponse.builder()
