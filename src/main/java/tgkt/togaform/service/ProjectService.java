@@ -31,15 +31,19 @@ public class ProjectService {
     public Project selectById(Project project) {
         return mapper.selectById(project);
     }
+
     public ListResponse selectAll(ProjectListRequest req) {
-        var list = mapper.selectAll(req);
-        var totalCount = mapper.countAll(req);
-        var newPage = (req.getStart() / 10) + 1;
+
+        var totalPage = req.getLimit() == 0 ? -1 :
+                mapper.countAll(req) / req.getLimit() + 1;
+
+        var currentPage = req.getLimit() == 0 ? -1 :
+                (req.getStart() / req.getLimit()) + 1;
 
         return ListResponse.builder()
-                .totalPage(totalCount / 10 + 1)
-                .data(list)
-                .currentPage(newPage)
+                .totalPage(totalPage)
+                .data(mapper.selectAll(req))
+                .currentPage(currentPage)
                 .build();
     }
 }
