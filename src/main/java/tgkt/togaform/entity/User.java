@@ -10,6 +10,7 @@ public class User implements Serializable {
     private String id;
     private String username;
     private String password;
+    private int role;
 
     private Date startTime;
     private Date stopTime;
