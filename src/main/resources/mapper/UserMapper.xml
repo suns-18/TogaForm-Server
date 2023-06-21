@@ -16,11 +16,12 @@
         <result column="creation_date" jdbcType="TIMESTAMP" property="creationDate"/>
         <result column="last_updated_by" jdbcType="VARCHAR" property="lastUpdatedBy"/>
         <result column="last_update_date" jdbcType="TIMESTAMP" property="lastUpdateDate"/>
+        <result column="role" jdbcType="INTEGER" property="role" />
     </resultMap>
 
     <sql id="safeColumns">
         id, username, start_time, stop_time, status, created_by, creation_date, last_updated_by,
-        last_updated_date
+        last_update_date,role
     </sql>
     <select id="selectById" parameterType="java.lang.String" resultMap="BRM">
         select
@@ -39,6 +40,7 @@
             <if test="id != null">id,</if>
             <if test="username != null">username,</if>
             <if test="password != null">password,</if>
+            role,
             <if test="startTime != null">start_time,</if>
             <if test="stopTime != null">stop_time,</if>
             status,
@@ -51,6 +53,7 @@
             <if test="id != null">#{id,jdbcType=VARCHAR},</if>
             <if test="username != null">#{username,jdbcType=VARCHAR},</if>
             <if test="password != null">#{password,jdbcType=VARCHAR},</if>
+            #{role},
             <if test="startTime != null">#{startTime,jdbcType=TIMESTAMP},</if>
             <if test="stopTime != null">#{stopTime,jdbcType=TIMESTAMP},</if>
             <if test="status == null">1,</if>
@@ -66,6 +69,7 @@
         <set>
             <if test="username != null">username = #{username,jdbcType=VARCHAR},</if>
             <if test="password != null">password = #{password,jdbcType=VARCHAR},</if>
+            role = #{role},
             <if test="startTime != null">start_time = #{startTime,jdbcType=TIMESTAMP},</if>
             <if test="stopTime != null">stop_time = #{stopTime,jdbcType=TIMESTAMP},</if>
             <if test="status != null">status = #{status,jdbcType=VARCHAR},</if>
@@ -78,18 +82,41 @@
     </update>
     <select id="verify" parameterType="java.lang.String"
             resultMap="BRM">
-        SELECT id, username FROM `user_info`
+        SELECT
+        <include refid="safeColumns"/>
+        FROM `user_info`
         WHERE username = #{username,jdbcType=VARCHAR}
         AND `password` = #{password,jdbcType=VARCHAR}
         AND status = "1"
     </select>
-    <select id="selectAll" resultMap="BRM" parameterType="java.lang.String">
+    <select id="selectAll" resultMap="BRM"
+            parameterType="tgkt.togaform.request.UserListRequest">
         SELECT
         <include refid="safeColumns"/>
         FROM `user_info`
-        <if test="username != null">
-            where username like '%${username}%'
-        </if>
+        <where>
+            <if test="username != null">
+                and username like '%${username}%'
+            </if>
+            <if test="status!=null">
+                and status = #{status}
+            </if>
+        </where>
         order by creation_date desc
+        <if test="limit!=0">
+            limit #{start},#{limit}
+        </if>
+    </select>
+    <select id="countAll" resultType="java.lang.Integer">
+        SELECT COUNT(*)
+        FROM `user_info`
+        <where>
+            <if test="username != null">
+                and username like '%${username}%'
+            </if>
+            <if test="status!=null">
+                and status = #{status}
+            </if>
+        </where>
     </select>
 </mapper>

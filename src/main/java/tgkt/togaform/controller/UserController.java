@@ -5,9 +5,10 @@ import org.springframework.web.bind.annotation.*;
 
 import tgkt.togaform.entity.User;
 import tgkt.togaform.request.UserListRequest;
-import tgkt.togaform.response.ListResponse;
 import tgkt.togaform.service.UserService;
 import tgkt.togaform.response.HttpResponse;
+
+import java.util.List;
 
 @RestController
 @RequestMapping(value = "/api/user")
@@ -97,43 +98,31 @@ public class UserController {
     }
 
     @RequestMapping(value = "/queryList", method = RequestMethod.POST)
-    public HttpResponse queryUserList(@RequestBody UserListRequest req) {
-        ListResponse resp;
+    public HttpResponse queryList(@RequestBody UserListRequest req) {
+        HttpResponse resp;
         try {
-            var result = userService.queryList(req);
+            resp = userService.selectAll(req);
+            resp.setCode(1);
+            resp.setMessage("查询成功");
 
-            if (result.isEmpty()) {
-                resp = ListResponse.builder()
-                        .code(1)
-                        .message("列表为空")
-                        .build();
-            } else {
-                resp = ListResponse.builder()
-                        .code(1)
-                        .data(result)
-                        .message("查询成功")
-                        .currentPage(0)
-                        .pageIndex(0)
-                        .totalCount(0)
-                        .build();
-            }
         } catch (Exception e) {
-            resp = ListResponse.builder()
+            e.printStackTrace();
+            resp = HttpResponse.builder()
                     .code(0)
                     .message("数据库访问错误")
-                    .data(e.getMessage())
+                    .data(e.getStackTrace())
                     .build();
         }
         return resp;
     }
 
     @RequestMapping(value = "/queryById", method = RequestMethod.POST)
-    public HttpResponse queryById(@RequestBody User user) {
+    public HttpResponse queryById(@RequestBody UserListRequest req) {
         HttpResponse resp;
         try {
-            var result = userService.queryList(user);
-
-            if (result.isEmpty()) {
+            var result = userService.selectAll(req);
+            var list = (List<User>) result.getData();
+            if (list.isEmpty()) {
                 resp = HttpResponse.builder()
                         .code(1)
                         .message("查询不到该用户")
