@@ -13,7 +13,7 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Document(collection = "questionaire")
+@Document(collection = "questionnaire")
 public class Quesnaire {
     private String id;
     private String title;

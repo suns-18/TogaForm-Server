@@ -38,8 +38,8 @@ db.createCollection("question");
 // ----------------------------
 // Collection structure for questionaire
 // ----------------------------
-db.getCollection("questionaire").drop();
-db.createCollection("questionaire");
+db.getCollection("questionnaire").drop();
+db.createCollection("questionnaire");
 
 // ----------------------------
 // Documents of questionaire
