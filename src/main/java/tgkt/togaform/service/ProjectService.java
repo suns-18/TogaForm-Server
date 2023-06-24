@@ -3,15 +3,24 @@ package tgkt.togaform.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import tgkt.togaform.entity.Project;
+import tgkt.togaform.entity.Quesnaire;
 import tgkt.togaform.mapper.ProjectMapper;
+import tgkt.togaform.repo.QuesnaireRepo;
 import tgkt.togaform.request.ProjectListRequest;
+import tgkt.togaform.request.QuesnaireListRequest;
 import tgkt.togaform.response.ListResponse;
+import tgkt.togaform.response.ProjectQuesnaireResponse;
 import tgkt.togaform.util.UUIDUtil;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class ProjectService {
     @Autowired
     private ProjectMapper mapper;
+    @Autowired
+    private QuesnaireService quesnaireService;
 
     public int insert(Project project) throws NullPointerException {
         if (project.getProjectName().isEmpty())
@@ -45,5 +54,26 @@ public class ProjectService {
                 .data(mapper.selectAll(req))
                 .currentPage(currentPage)
                 .build();
+    }
+
+    public ListResponse selectAllExtended(ProjectListRequest req) {
+        var projectResp = selectAll(req);
+        List<ProjectQuesnaireResponse>
+                respList = new ArrayList<>();
+        List<Project> rawList = (List<Project>) projectResp.getData();
+
+        rawList.forEach(item -> {
+            var quesnaireReq = new QuesnaireListRequest();
+            quesnaireReq.setProject(item.getId());
+
+            var extendedItem = ProjectQuesnaireResponse.builder()
+                    .project(item)
+                    .quesnaires((List<Quesnaire>) quesnaireService
+                            .selectByProject(quesnaireReq).getData())
+                    .build();
+            respList.add(extendedItem);
+        });
+        projectResp.setData(respList);
+        return projectResp;
     }
 }
