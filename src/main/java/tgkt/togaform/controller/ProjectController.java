@@ -121,7 +121,7 @@ public class ProjectController {
     public HttpResponse queryList(@RequestBody ProjectListRequest req) {
         HttpResponse resp;
         try {
-            resp = projectService.selectAll(req);
+            resp = projectService.selectAllExtended(req);
             resp.setCode(1);
             resp.setMessage("查询成功");
         } catch (Exception e) {

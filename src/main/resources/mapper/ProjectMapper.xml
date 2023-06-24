@@ -56,6 +56,9 @@
                 and project_name like '%${projectName}%'
             </if>
         </where>
+        <if test="limit!=0">
+            limit #{start},#{limit}
+        </if>
     </select>
 
     <select id="selectById" resultMap="BRM">
