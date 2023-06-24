@@ -1,0 +1,10 @@
+### QueryByQuesnaire
+POST http://127.0.0.1:8085/api/question/add
+Content-Type: application/json
+
+{
+  "id": "007",
+  "title": "guagua",
+  "project": "瓜瓜带我去看火星演唱会"
+
+}

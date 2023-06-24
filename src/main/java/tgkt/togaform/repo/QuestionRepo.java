@@ -1,6 +1,7 @@
 package tgkt.togaform.repo;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
+import tgkt.togaform.entity.Quesnaire;
 import tgkt.togaform.entity.Question;
 
 import java.util.List;
@@ -16,11 +17,13 @@ public interface QuestionRepo extends MongoRepository<Question,String> {
     @Override
     Optional<Question> findById(String s);
 
+
     @Override
     void deleteById(String s);
 
     @Override
     boolean existsById(String s);
 
-
+    @Override
+    long count();
 }
