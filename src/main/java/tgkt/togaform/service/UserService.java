@@ -13,6 +13,19 @@ public class UserService {
     @Autowired
     private UserMapper mapper;
 
+    public int insert(User user) throws NullPointerException {
+        if (user.getUsername().isEmpty())
+            return 0;
+        user.setId(UUIDUtil.getOneUUID());
+        return mapper.insert(user);
+    }
+    public int deleteById(User user) {
+        return mapper.deleteById(user);
+    }
+    public int update(User user) {
+        return mapper.update(user);
+    }
+
     public ListResponse selectAll(UserListRequest req) {
 
         var totalPage = req.getLimit() == 0 ? -1 :
@@ -28,22 +41,12 @@ public class UserService {
                 .build();
     }
 
+    public User selectById(User user) {
+        return mapper.selectById(user);
+    }
+
     public User verify(User user) {
         return mapper.verify(user);
     }
 
-    public int insert(User user) throws NullPointerException {
-        if (user.getUsername().isEmpty())
-            return 0;
-        user.setId(UUIDUtil.getOneUUID());
-        return mapper.insert(user);
-    }
-
-    public int update(User user) {
-        return mapper.update(user);
-    }
-
-    public int deleteById(User user) {
-        return mapper.deleteById(user);
-    }
 }

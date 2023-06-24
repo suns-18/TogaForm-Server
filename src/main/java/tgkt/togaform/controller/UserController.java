@@ -8,8 +8,6 @@ import tgkt.togaform.request.UserListRequest;
 import tgkt.togaform.service.UserService;
 import tgkt.togaform.response.HttpResponse;
 
-import java.util.List;
-
 @RestController
 @RequestMapping(value = "/api/user")
 public class UserController {
@@ -120,9 +118,8 @@ public class UserController {
     public HttpResponse queryById(@RequestBody UserListRequest req) {
         HttpResponse resp;
         try {
-            var result = userService.selectAll(req);
-            var list = (List<User>) result.getData();
-            if (list.isEmpty()) {
+            var result = userService.selectById(req);
+            if (result == null) {
                 resp = HttpResponse.builder()
                         .code(1)
                         .message("查询不到该用户")
