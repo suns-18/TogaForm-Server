@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import tgkt.togaform.entity.Template;
 import tgkt.togaform.repo.TemplateRepo;
+import tgkt.togaform.request.TemplateListRequest;
+import tgkt.togaform.response.ListResponse;
 
 @Service
 public class TemplateService {
@@ -32,6 +34,22 @@ public class TemplateService {
             Template t) {
         var optional = repo.findById(t.getId());
         return optional.orElse(null);
+    }
+
+    public ListResponse selectAll(
+            TemplateListRequest req) {
+        var totalPage = req.getLimit() != 0 ?
+                (int) (repo.count()) / req.getLimit() + 1
+                : -1;
+        var currentPage = req.getLimit() != 0 ?
+                req.getStart() / req.getLimit() + 1
+                : -1;
+
+        return ListResponse.builder()
+                .data(repo.findAll())
+                .totalPage(totalPage)
+                .currentPage(currentPage)
+                .build();
     }
 
 }
