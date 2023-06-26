@@ -1,11 +1,7 @@
 package tgkt.togaform.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import tgkt.togaform.entity.Quesnaire;
+import org.springframework.web.bind.annotation.*;
 import tgkt.togaform.entity.Template;
 import tgkt.togaform.request.TemplateListRequest;
 import tgkt.togaform.response.HttpResponse;
@@ -126,7 +122,12 @@ public class TemplateController {
         HttpResponse resp;
 
         try {
-            resp = service.selectAll(req);
+            if (req.getTitle() != null
+                    && !req.getTitle().isBlank())
+                resp = service.selectByTitleLike(req);
+            else
+                resp = service.selectAll(req);
+
             if (((List<Template>) (resp.getData())).isEmpty()) {
                 resp.setCode(1);
                 resp.setMessage("列表为空");

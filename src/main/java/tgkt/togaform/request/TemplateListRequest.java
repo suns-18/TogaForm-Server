@@ -9,6 +9,6 @@ import tgkt.togaform.entity.Template;
 @Data
 public class TemplateListRequest
         extends Template {
-    private int start;
-    private int limit;
+    private int page;
+    private int size;
 }
