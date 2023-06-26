@@ -31,7 +31,6 @@ Question
 | description     | string            | 问题描述                       |
 | answerType      | number            | 问题类型ID(见enum_answer_type表) |
 | answerSelection | AnswerSelection[] | 答案选项集合（单选、多选、矩阵）           |
-| template        | string            | 模板ID，默认为“0”                |
 
 =>AnswerSelection
 
