@@ -3,6 +3,8 @@ package tgkt.togaform.entity;
 import lombok.Data;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.List;
+
 @Data
 @Document
 public class Question {
@@ -11,6 +13,5 @@ public class Question {
     private boolean required;
     private String description;
     private int answerType;
-    private AnswerSelection answerSelection;
-    private String template;
+    private List<AnswerSelection> answerSelections;
 }
