@@ -14,5 +14,5 @@ public class Template {
     private Date createTime;
     private String description;
 
-    private List<String> questions;
+    private List<Question> questions;
 }
