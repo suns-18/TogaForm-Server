@@ -7,12 +7,16 @@ import tgkt.togaform.repo.QuesnaireRepo;
 import tgkt.togaform.request.QuesnaireListRequest;
 import tgkt.togaform.response.ListResponse;
 
+import java.util.Date;
+
 @Service
 public class QuesnaireService {
     @Autowired
     private QuesnaireRepo repo;
 
     public int insert(Quesnaire q) {
+        if (q.getStartTime() == null)
+            q.setStartTime(new Date());
         return repo.insert(q) == null
                 ? 0 : 1;
     }
