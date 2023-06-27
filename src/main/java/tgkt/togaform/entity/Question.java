@@ -13,5 +13,5 @@ public class Question {
     private boolean required;
     private String description;
     private int answerType;
-    private List<AnswerSelection> answerSelections;
+    private List<AnswerSelection> selections;
 }
