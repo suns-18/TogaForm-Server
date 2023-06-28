@@ -29,7 +29,7 @@ class ProjectTest {
                                 .getData()))
                         .isEmpty()
                 , "Project模块>>列表请求测试1：返回所有，未通过");
-        log.info("Project模块>>列表请求测试1：返回所有，未通过");
+        log.info("Project模块>>列表请求测试1：返回所有，通过");
 
         p.setId(null);
         p.setProjectName("g");
