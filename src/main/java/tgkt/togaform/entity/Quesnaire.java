@@ -26,6 +26,6 @@ public class Quesnaire {
 
     private String project;
 
-    private List<String> questions;
+    private List<Question> questions;
     private List<Integer> roles;
 }
