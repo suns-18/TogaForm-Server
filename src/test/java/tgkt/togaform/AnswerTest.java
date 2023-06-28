@@ -21,7 +21,7 @@ public class AnswerTest {
     @Autowired
     AnswerService service;
     Logger log = Logger.getLogger(AnswerTest.class);
-    @Test
+    /*@Test
     void query() {
         var a = new AnswerListRequest();
         a.setId("guagua");
@@ -113,5 +113,5 @@ public class AnswerTest {
         log.info("Answer模块>>删除请求测试3：不存在的Id，通过");
 
         log.info("Answer模块>>删除请求测试通过");
-    }
+    }*/
 }

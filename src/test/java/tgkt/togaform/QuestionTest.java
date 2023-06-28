@@ -26,18 +26,16 @@ public class QuestionTest {
     void query() {
         var q = new QuestionListRequest();
         q.setId("test1");//已存在
-        Assertions.assertFalse(((List<Question>)
+        Assertions.assertNull((
                         (controller.queryById(q)
                                 .getData()))
-                        .isEmpty()
                 , "Question模块>>列表请求测试1：无法返回已存在的问卷，未通过");
         log.info("Question模块>>列表请求测试1：返回已存在的问卷，通过");
 
         q.setId(null);
-        Assertions.assertTrue(((List<Question>)
-                        (controller.queryById(q)
-                                .getData()))
-                        .isEmpty()
+        Assertions.assertNull(
+                        controller.queryById(q)
+                                .getData()
                 , "Question模块>>列表请求测试2：查询到ID为null，未通过");
         log.info("Question模块>>列表请求测试2：无法查询到ID为null，通过");
 

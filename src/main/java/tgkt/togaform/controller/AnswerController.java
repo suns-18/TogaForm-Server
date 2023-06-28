@@ -15,7 +15,7 @@ import java.util.List;
 public class AnswerController {
     @Autowired
     private AnswerService service;
-
+/*
     @PostMapping(value = "/add")
     public HttpResponse add(@RequestBody Answer a) {
         HttpResponse resp;
@@ -115,7 +115,7 @@ public class AnswerController {
                     .build();
         }
         return resp;
-    }
+    }*/
 
     @RequestMapping(value = "/statByQuesnaire",
             method = RequestMethod.POST)
