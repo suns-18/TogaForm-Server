@@ -116,7 +116,7 @@ public class AnswerController {
     }
     @RequestMapping(value = "/queryByQuesnaire",
             method = RequestMethod.POST)
-    public HttpResponse queryByProject(@RequestBody AnswerlistRequest req) {
+    public HttpResponse queryByQuesnaire(@RequestBody AnswerlistRequest req) {
         HttpResponse resp;
 
         try {

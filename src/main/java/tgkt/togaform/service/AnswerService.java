@@ -50,15 +50,17 @@ public class AnswerService {
     public ListResponse selectByQuesnaire(
             AnswerlistRequest req) {
 
+        var list = repo.findByQuesnaire(req.getQuesnaire());
+
         var totalPage = req.getLimit() != 0 ?
-                (int) (repo.count()) / req.getLimit() + 1
+                (list.size()) / req.getLimit() + 1
                 : -1;
         var currentPage = req.getLimit() != 0 ?
                 req.getStart() / req.getLimit() + 1
                 : -1;
 
         return ListResponse.builder()
-                .data(repo.findByQuesnaire(req.getQuesnaire()))
+                .data(list.subList(req.getStart(), req.getLimit()))
                 .totalPage(totalPage)
                 .currentPage(currentPage)
                 .build();

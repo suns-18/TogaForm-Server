@@ -19,8 +19,7 @@ public class Answer {
 
 @Data
 class AnswerItem{
-    protected String questionId;
-    protected AnswerSelection answer;
+    protected List<String> answer;
 }
 @Data
 class AnswerSelection {
