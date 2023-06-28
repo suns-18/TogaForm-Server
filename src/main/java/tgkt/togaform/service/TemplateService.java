@@ -1,5 +1,6 @@
 package tgkt.togaform.service;
 
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -7,6 +8,7 @@ import tgkt.togaform.entity.Template;
 import tgkt.togaform.repo.TemplateRepo;
 import tgkt.togaform.request.TemplateListRequest;
 import tgkt.togaform.response.ListResponse;
+import tgkt.togaform.util.BSONIDUtil;
 
 @Service
 public class TemplateService {
@@ -14,6 +16,7 @@ public class TemplateService {
     private TemplateRepo repo;
 
     public int insert(Template t) {
+        t.setId(BSONIDUtil.getOneId());
         return repo.insert(t) == null
                 ? 0 : 1;
     }

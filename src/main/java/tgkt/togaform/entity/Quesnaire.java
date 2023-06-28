@@ -3,6 +3,7 @@ package tgkt.togaform.entity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.Id;
 import org.springframework.data
         .mongodb.core.mapping.Document;
 
@@ -27,5 +28,5 @@ public class Quesnaire {
     private String project;
 
     private List<Question> questions;
-    private List<Integer> roles;
+    private List<String> roles;
 }
