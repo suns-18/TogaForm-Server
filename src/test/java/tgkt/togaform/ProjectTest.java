@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import tgkt.togaform.controller.ProjectController;
 import tgkt.togaform.entity.Project;
+import tgkt.togaform.request.ProjectListRequest;
 import tgkt.togaform.service.ProjectService;
 
 import java.util.List;
@@ -21,7 +22,8 @@ class ProjectTest {
 
     @Test
     void queryList() {
-        var p = new Project();
+        var p = new ProjectListRequest();
+
         Assertions.assertFalse(((List<Project>)
                         (controller.queryList(p)
                                 .getData()))
@@ -43,7 +45,7 @@ class ProjectTest {
 
     @Test
     void querySingle() {
-        var p = new Project();
+        var p = new ProjectListRequest();
         p.setId("11111111111");
         Assertions.assertTrue(((List<Project>)
                         (controller.queryList(p)
@@ -86,8 +88,8 @@ class ProjectTest {
 
     @Test
     void modify() {
-        var p = new Project();
-        p = (Project) ((List<?>) (controller.queryList(p).getData())).get(0);
+        var p = new ProjectListRequest();
+        p = (ProjectListRequest) ((List<?>) (controller.queryList(p).getData())).get(0);
         p.setProjectName("guagua");
         Assertions.assertEquals(
                 controller.modify(p).getCode(), "1");
@@ -116,14 +118,14 @@ class ProjectTest {
 
     @Test
     void del() {
-        var p = new Project();
+        var p = new ProjectListRequest();
         p.setId(null);
         Assertions.assertEquals(
                 controller.deleteById(p).getCode(), "0");
         log.info("Project模块>>删除请求测试1：Id为null，通过");
 
         p.setProjectName("test");
-        p= ((List<Project>) controller.queryList(p).getData()).get(0);
+        p= ((List<ProjectListRequest>) controller.queryList(p).getData()).get(0);
         Assertions.assertEquals(
                 controller.deleteById(p).getCode(), "1");
         log.info("Project模块>>删除请求测试2：正常情况，通过");
