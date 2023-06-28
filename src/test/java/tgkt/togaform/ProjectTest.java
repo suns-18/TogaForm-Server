@@ -70,17 +70,17 @@ class ProjectTest {
         var p = new Project();
         p.setProjectName("test1");
         Assertions.assertEquals(
-                controller.add(p).getCode(), "1");
+                controller.add(p).getCode(), 1);
         log.info("Project模块>>添加请求测试1：正常情况，通过");
 
         p.setProjectName(null);
         Assertions.assertEquals(
-                controller.add(p).getCode(), "0");
+                controller.add(p).getCode(), 0);
         log.info("Project模块>>添加请求测试2：工程名为null，通过");
 
         p.setProjectName("");
         Assertions.assertEquals(
-                controller.add(p).getCode(), "0");
+                controller.add(p).getCode(), 0);
         log.info("Project模块>>添加请求测试3：工程名为空字符串，通过");
 
         log.info("Project模块>>添加请求测试通过");
