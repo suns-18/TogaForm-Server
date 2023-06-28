@@ -21,7 +21,7 @@
                 #{createdBy,jdbcType=CHAR},
                 #{creationDate,jdbcType=TIMESTAMP}, #{lastUpdatedBy,jdbcType=CHAR},
                 #{lastUpdateDate,jdbcType=TIMESTAMP},
-                #{projectContent,jdbcType=LONGVARCHAR})
+                #{description,jdbcType=LONGVARCHAR})
     </insert>
 
     <delete id="deleteById" parameterType="java.lang.String">
@@ -40,7 +40,7 @@
             <if test="creationDate != null">creation_date = #{creationDate,jdbcType=TIMESTAMP},</if>
             <if test="lastUpdatedBy != null">last_updated_by = #{lastUpdatedBy,jdbcType=CHAR},</if>
             <if test="lastUpdateDate != null">last_update_date = #{lastUpdateDate,jdbcType=TIMESTAMP},</if>
-            <if test="projectContent != null">project_content = #{projectContent,jdbcType=LONGVARCHAR},</if>
+            <if test="description != null">project_content = #{description,jdbcType=LONGVARCHAR},</if>
         </set>
         where id = #{id,jdbcType=VARCHAR}
     </update>

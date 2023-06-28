@@ -9,6 +9,8 @@ public class Project {
     private String userId;
 
     private String projectName;
+    private String description;
+
     private String createdBy;
     private Date creationDate;
 

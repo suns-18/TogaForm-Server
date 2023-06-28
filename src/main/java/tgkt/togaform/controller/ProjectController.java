@@ -94,6 +94,7 @@ public class ProjectController {
                     .code(0)
                     .message("数据库访问错误")
                     .build();
+            e.printStackTrace();
         }
         return resp;
     }
