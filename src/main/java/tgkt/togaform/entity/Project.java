@@ -7,6 +7,7 @@ import java.util.Date;
 public class Project {
     private String id;
     private String userId;
+    private Integer available;
 
     private String projectName;
     private String description;
