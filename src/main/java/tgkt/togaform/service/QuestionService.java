@@ -14,11 +14,17 @@ public class QuestionService {
     private QuestionRepo repo;
     public int insert(Question q) {
         q.setId(BSONIDUtil.getOneId());
+        if(q.getTitle()==null||q.getTitle().equals("")){
+            return 0;
+        }
         return repo.insert(q) == null
                 ? 0 : 1;
     }
     public int deleteById(Question q) {
         try {
+            if(q.getId()==null ||
+                    !repo.existsById(q.getId()))
+                return 0;
             repo.deleteById(q.getId());
             return 1;
         } catch (Exception e) {
@@ -26,9 +32,11 @@ public class QuestionService {
         }
     }
     public int update(Question q) {
-        if (repo.existsById(q.getId()))
+        if (!repo.existsById(q.getId()))
             return 0;
-
+        if(q.getTitle()==null||q.getTitle().equals("")){
+            return 0;
+        }
         repo.save(q);
         return 1;
     }
@@ -37,6 +45,5 @@ public class QuestionService {
         var optional = repo.findById(q.getId());
         return optional.orElse(null);
     }
-
 
 }
