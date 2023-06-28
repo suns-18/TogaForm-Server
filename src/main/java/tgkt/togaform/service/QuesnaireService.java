@@ -1,10 +1,7 @@
 package tgkt.togaform.service;
 
-import org.bson.codecs.ObjectIdGenerator;
-import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import tgkt.togaform.entity.Answer;
 import tgkt.togaform.entity.Quesnaire;
 import tgkt.togaform.repo.QuesnaireRepo;
 import tgkt.togaform.request.QuesnaireListRequest;
@@ -14,14 +11,13 @@ import tgkt.togaform.util.BSONIDUtil;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 @Service
 public class QuesnaireService {
     @Autowired
     private QuesnaireRepo repo;
-    @Autowired
-    private AnswerService answerService;
+    // @Autowired
+    // private AnswerService answerService;
 
     public int insert(Quesnaire q) {
         q.setId(BSONIDUtil.getOneId());
@@ -56,7 +52,12 @@ public class QuesnaireService {
 
     public Quesnaire selectById(
             Quesnaire q) {
-        var optional = repo.findById(q.getId());
+        return selectById(q.getId());
+    }
+
+    public Quesnaire selectById(
+            String id) {
+        var optional = repo.findById(id);
         return optional.orElse(null);
     }
 
@@ -82,7 +83,7 @@ public class QuesnaireService {
     }
 
     public ListResponse selectByUser(QuesnaireListRequest req, String userId) {
-
+/*
         var allQuesnaireList = repo.findAll();
         var answerList = answerService.selectByUser(userId);
 
@@ -138,6 +139,7 @@ public class QuesnaireService {
                 .data(orderedList)
                 .totalPage(totalPage)
                 .currentPage(currentPage)
-                .build();
+                .build();*/
+        return null;
     }
 }

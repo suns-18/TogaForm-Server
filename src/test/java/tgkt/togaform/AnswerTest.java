@@ -8,7 +8,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.stereotype.Component;
 import tgkt.togaform.controller.AnswerController;
 import tgkt.togaform.entity.Answer;
-import tgkt.togaform.request.AnswerlistRequest;
+import tgkt.togaform.request.AnswerListRequest;
 import tgkt.togaform.service.AnswerService;
 import java.util.List;
 
@@ -23,7 +23,7 @@ public class AnswerTest {
     Logger log = Logger.getLogger(AnswerTest.class);
     @Test
     void query() {
-        var a = new AnswerlistRequest();
+        var a = new AnswerListRequest();
         a.setUserId("admin");
         Assertions.assertFalse(((List<Answer>)
                         (controller.queryByUser(a)
@@ -78,8 +78,8 @@ public class AnswerTest {
     }
     @Test
     void modify() {
-        var a = new AnswerlistRequest();
-        a = (AnswerlistRequest) ((List<?>) (controller.queryById(a).getData()));
+        var a = new AnswerListRequest();
+        a = (AnswerListRequest) ((List<?>) (controller.queryById(a).getData()));
         a.setId("123");
         Assertions.assertEquals(
                 controller.modify(a).getCode(), "1");
@@ -108,14 +108,14 @@ public class AnswerTest {
 
     @Test
     void del() {
-        var a = new AnswerlistRequest();
+        var a = new AnswerListRequest();
         a.setId(null);
         Assertions.assertEquals(
                 controller.deleteById(a).getCode(), "0");
         log.info("Answer模块>>删除请求测试1：Id为null，通过");
 
         a.setQuesnaire("test");
-        a = ((List<AnswerlistRequest>) controller.queryByProject(a).getData()).get(0);
+        a = ((List<AnswerListRequest>) controller.queryByProject(a).getData()).get(0);
         Assertions.assertEquals(
                 controller.deleteById(a).getCode(), "1");
         log.info("Answer模块>>删除请求测试2：正常情况，通过");

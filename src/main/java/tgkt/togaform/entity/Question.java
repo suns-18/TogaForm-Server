@@ -16,4 +16,10 @@ public class Question {
     private String description;
     private int answerType;
     private List<AnswerSelection> selections;
+
+    @Data
+    public static class AnswerSelection {
+        private String key;
+        private String value;
+    }
 }

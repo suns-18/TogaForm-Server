@@ -111,4 +111,28 @@ public class QuestionController {
         return resp;
     }
 
+    @PostMapping("/upload/current")
+    public HttpResponse uploadToCurrent(@RequestBody Question q) {
+        HttpResponse resp;
+        try {
+            var result = service.selectById(q);
+            if (result == null)
+                resp = HttpResponse.builder()
+                        .code(0)
+                        .message("查询不到该问题")
+                        .build();
+            else
+                resp = HttpResponse.builder()
+                        .code(1)
+                        .message("查询成功")
+                        .build();
+        } catch (Exception e) {
+            resp = HttpResponse.builder()
+                    .code(0)
+                    .message("数据库访问错误")
+                    .data(e.getMessage())
+                    .build();
+        }
+        return resp;
+    }
 }

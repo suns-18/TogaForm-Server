@@ -1,22 +1,27 @@
 package tgkt.togaform.service;
 
-import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import tgkt.togaform.entity.Answer;
-import tgkt.togaform.entity.Quesnaire;
+import tgkt.togaform.entity.Question;
 import tgkt.togaform.repo.AnswerRepo;
-import tgkt.togaform.request.AnswerlistRequest;
-import tgkt.togaform.request.QuesnaireListRequest;
+import tgkt.togaform.request.AnswerListRequest;
+import tgkt.togaform.response.HttpResponse;
 import tgkt.togaform.response.ListResponse;
+import tgkt.togaform.response.QuestionStatResponse;
+import tgkt.togaform.response.StatMap;
 import tgkt.togaform.util.BSONIDUtil;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 @Service
 public class AnswerService {
     @Autowired
     private AnswerRepo repo;
+    @Autowired
+    private QuesnaireService quesnaireService;
 
     public int insert(Answer a) {
         a.setId(BSONIDUtil.getOneId());
@@ -47,23 +52,51 @@ public class AnswerService {
         return optional.orElse(null);
     }
 
-    public ListResponse selectByQuesnaire(
-            AnswerlistRequest req) {
+    public List<QuestionStatResponse> statByQuesnaire(
+            AnswerListRequest req) {
 
-        var list = repo.findByQuesnaire(req.getQuesnaire());
+        var answerUsers = repo.findByQuesnaire(req.getQuesnaire());
 
-        var totalPage = req.getLimit() != 0 ?
-                (list.size()) / req.getLimit() + 1
-                : -1;
-        var currentPage = req.getLimit() != 0 ?
-                req.getStart() / req.getLimit() + 1
-                : -1;
+        var quesnaire = quesnaireService.selectById(req.getQuesnaire());
+        var questions = quesnaire.getQuestions();
 
-        return ListResponse.builder()
-                .data(list.subList(req.getStart(), req.getLimit()))
-                .totalPage(totalPage)
-                .currentPage(currentPage)
-                .build();
+        List<QuestionStatResponse> respList = new ArrayList<>();
+
+        for (int i = 0; i < questions.size(); i++) {
+            var resp = new QuestionStatResponse();
+            var question = questions.get(i);
+            resp.setQuestion(question);
+
+            var maps = new ArrayList<StatMap>();
+            if (question.getAnswerType() <= 2)
+                question.getSelections().forEach(sel -> {
+                    var mapItem = new StatMap();
+                    mapItem.setName(sel.getKey());
+                    mapItem.setValue(0);
+                    maps.add(mapItem);
+                });
+
+            for (Answer item : answerUsers) {
+                var answerForQuestion = item.getAnswers().get(i);
+                StatMap map = new StatMap();
+
+                if (question.getAnswerType() == 3) {
+                    map.setName(answerForQuestion.get(0));
+                    maps.add(map);
+                } else if (question.getAnswerType() <= 2) {
+                    answerForQuestion.forEach(sel -> {
+                        maps.forEach(m -> {
+                            if (m.getName().equals(sel))
+                                m.setValue(m.getValue() + 1);
+                        });
+                    });
+                }
+            }
+
+            resp.setMaps(maps);
+            respList.add(resp);
+        }
+        return respList;
     }
 
     public List<Answer> selectByUser(

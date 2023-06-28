@@ -14,15 +14,9 @@ public class Answer {
     private String userId;
     private Date answerTime;
     private String quesnaire;
-    private List<AnswerItem> answers;
+    private List<List<String>> answers;
+
 }
 
-@Data
-class AnswerItem{
-    protected List<String> answer;
-}
-@Data
-class AnswerSelection {
-    protected String key;
-    protected String value;
-}
+
+

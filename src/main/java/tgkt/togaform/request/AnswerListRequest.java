@@ -5,7 +5,7 @@ import lombok.EqualsAndHashCode;
 import tgkt.togaform.entity.Answer;
 @EqualsAndHashCode(callSuper = true)
 @Data
-public class AnswerlistRequest extends Answer {
+public class AnswerListRequest extends Answer {
     private int start;
     private int limit;
 }

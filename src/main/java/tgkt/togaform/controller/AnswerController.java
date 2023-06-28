@@ -4,8 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import tgkt.togaform.entity.Answer;
 import tgkt.togaform.entity.Quesnaire;
-import tgkt.togaform.request.AnswerlistRequest;
-import tgkt.togaform.request.QuesnaireListRequest;
+import tgkt.togaform.request.AnswerListRequest;
 import tgkt.togaform.response.HttpResponse;
 import tgkt.togaform.service.AnswerService;
 
@@ -16,6 +15,7 @@ import java.util.List;
 public class AnswerController {
     @Autowired
     private AnswerService service;
+
     @PostMapping(value = "/add")
     public HttpResponse add(@RequestBody Answer a) {
         HttpResponse resp;
@@ -40,6 +40,7 @@ public class AnswerController {
         }
         return resp;
     }
+
     @PostMapping(value = "/del")
     public HttpResponse deleteById(@RequestBody Answer a) {
         HttpResponse resp;
@@ -89,6 +90,7 @@ public class AnswerController {
         }
         return resp;
     }
+
     @PostMapping(value = "/queryById")
     public HttpResponse queryById(@RequestBody Answer a) {
         HttpResponse resp;
@@ -114,14 +116,16 @@ public class AnswerController {
         }
         return resp;
     }
-    @RequestMapping(value = "/queryByQuesnaire",
+
+    @RequestMapping(value = "/statByQuesnaire",
             method = RequestMethod.POST)
-    public HttpResponse queryByQuesnaire(@RequestBody AnswerlistRequest req) {
+    public HttpResponse statByQuesnaire(@RequestBody AnswerListRequest req) {
         HttpResponse resp;
 
         try {
-            resp = service.selectByQuesnaire(req);
-            if (((List<Quesnaire>) (resp.getData())).isEmpty()) {
+            var result = service.statByQuesnaire(req);
+            resp = HttpResponse.builder().data(result).build();
+            if (result.isEmpty()) {
                 resp.setCode(1);
                 resp.setMessage("列表为空");
             } else {
