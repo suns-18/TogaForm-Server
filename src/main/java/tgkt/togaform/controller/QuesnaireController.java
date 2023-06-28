@@ -115,7 +115,7 @@ public class QuesnaireController {
                     .code(0)
                     .message("数据库访问错误")
                     .data(e.getMessage())
-                    .build();
+                    .build();e.printStackTrace();
         }
         return resp;
     }

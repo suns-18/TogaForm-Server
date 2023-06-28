@@ -26,9 +26,6 @@ public class QuesnaireService {
     public int insert(Quesnaire q) {
         q.setId(BSONIDUtil.getOneId());
 
-        if (q.getStartTime() == null)
-            q.setStartTime(new Date());
-
         if (q.getSurveyType().isEmpty())
             q.setSurveyType("类型1");
 
