@@ -23,6 +23,8 @@ public interface AnswerRepo extends
     @Override
     Optional<Answer> findById(String s);
 
+    List<Answer> findAllByUserId(String userId);
+
     @Override
      long count();
 }

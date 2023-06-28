@@ -15,6 +15,7 @@ import java.util.List;
 @NoArgsConstructor
 @Document(collection = "questionnaire")
 public class Quesnaire {
+    @Id
     private String id;
     private String title;
     private boolean available;

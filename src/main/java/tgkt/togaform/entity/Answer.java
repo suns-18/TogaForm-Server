@@ -1,6 +1,7 @@
 package tgkt.togaform.entity;
 
 import lombok.Data;
+import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.Date;
@@ -8,6 +9,7 @@ import java.util.List;
 @Data
 @Document
 public class Answer {
+    @Id
     private String id;
     private String userId;
     private Date answerTime;
@@ -19,4 +21,9 @@ public class Answer {
 class AnswerItem{
     protected String questionId;
     protected AnswerSelection answer;
+}
+@Data
+class AnswerSelection {
+    protected String key;
+    protected String value;
 }
