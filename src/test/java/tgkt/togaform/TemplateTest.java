@@ -21,48 +21,8 @@ public class TemplateTest {
     @Autowired
     TemplateService service;
     Logger log = Logger.getLogger(TemplateTest.class);
-    @Test
-    void queryList() {
-        var t = new TemplateListRequest();
 
-        Assertions.assertFalse(((List<Template>)
-                        (controller.queryList(t)
-                                .getData()))
-                        .isEmpty()
-                , "Template模块>>列表请求测试1：返回所有，未通过");
-        log.info("Template模块>>列表请求测试1：返回所有，通过");
 
-        t.setTitle("g");
-        Assertions.assertFalse(((List<Template>)
-                        (controller.queryList(t)
-                                .getData()))
-                        .isEmpty()
-                , "Template模块>>列表请求测试2：根据工程名模糊查询，未通过");
-        log.info("Template模块>>列表请求测试2：根据工程名模糊查询，通过");
-
-        log.info("Template模块>>列表请求测试通过");
-    }
-    @Test
-    void querySingle() {
-        var t = new TemplateListRequest();
-        t.setId("11111111111");
-        Assertions.assertTrue(((List<Template>)
-                        (controller.queryById(t)
-                                .getData()))
-                        .isEmpty()
-                , "Template模块>>单个请求测试1：不存在的Id，未通过");
-        log.info("Template模块>>单个请求测试1：不存在的Id，通过");
-
-        t.setId("028b57c425f5da70b35f89376dbc4c09");
-        Assertions.assertFalse(((List<Template>)
-                        (controller.queryById(t)
-                                .getData()))
-                        .isEmpty()
-                , "Template模块>>单个请求测试2：存在的Id，未通过");
-        log.info("Template模块>>单个请求测试2：存在的Id，通过");
-
-        log.info("Template模块>>单个请求测试通过");
-    }
     @Test
     void add() {
         var t = new Template();
@@ -71,24 +31,25 @@ public class TemplateTest {
                 controller.add(t).getCode(), 1);
         log.info("Template模块>>添加请求测试1：正常情况，通过");
 
-//        t.setTitle(null);
-//        Assertions.assertEquals(
-//                controller.add(t).getCode(), 0);
-//        log.info("Template模块>>添加请求测试2：工程名为null，通过");
+        t.setTitle(null);
+        Assertions.assertEquals(
+                controller.add(t).getCode(), 0);
+        log.info("Template模块>>添加请求测试2：模版名为null，通过");
 
-//        t.setTitle("");
-//        Assertions.assertEquals(
-//                controller.add(t).getCode(), 0);
-//        log.info("Template模块>>添加请求测试3：工程名为空字符串，通过");
+        t.setTitle("");
+        Assertions.assertEquals(
+                controller.add(t).getCode(), 0);
+        log.info("Template模块>>添加请求测试3：模版名为空字符串，通过");
 
         log.info("Template模块>>添加请求测试通过");
     }
     @Test
     void modify() {
-        var t = new TemplateListRequest();
+        var t = new Template();
+        t.setId("649c0fcb6ed0f56153f575f4");
         t.setTitle("guagua");
         Assertions.assertEquals(
-                controller.modify(t).getCode(), "1");
+                controller.modify(t).getCode(), 1);
         log.info("Template模块>>更新请求测试1：正常情况，通过");
 
         t.setId(null);
@@ -114,14 +75,12 @@ public class TemplateTest {
 
     @Test
     void del() {
-        var t = new TemplateListRequest();
+        var t = new Template();
         t.setId(null);
         Assertions.assertEquals(
                 controller.deleteById(t).getCode(), 0);
         log.info("Template模块>>删除请求测试1：Id为null，通过");
-
-        t.setTitle("test");
-         t = ((List<TemplateListRequest>) controller.queryList(t).getData()).get(0);
+        t.setId("649c10917337265281718808");
         Assertions.assertEquals(
                 controller.deleteById(t).getCode(), 1);
         log.info("Template模块>>删除请求测试2：正常情况，通过");
@@ -132,5 +91,47 @@ public class TemplateTest {
         log.info("Template模块>>删除请求测试3：不存在的Id，通过");
 
         log.info("Template模块>>删除请求测试通过");
+    }
+    @Test
+    void queryList() {
+        var t = new TemplateListRequest();
+
+        Assertions.assertFalse(((List<Template>)
+                        (controller.queryList(t)
+                                .getData()))
+                        .isEmpty()
+                , "Template模块>>列表请求测试1：返回所有，未通过");
+        log.info("Template模块>>列表请求测试1：返回所有，通过");
+
+        t.setTitle("g");
+        Assertions.assertFalse(((List<Template>)
+                        (controller.queryList(t)
+                                .getData()))
+                        .isEmpty()
+                , "Template模块>>列表请求测试2：根据模版名模糊查询，未通过");
+        log.info("Template模块>>列表请求测试2：根据模版名模糊查询，通过");
+
+        log.info("Template模块>>列表请求测试通过");
+    }
+    @Test
+    void querySingle() {
+        var t = new TemplateListRequest();
+        t.setId("11111111111");
+        Assertions.assertTrue(((List<Template>)
+                        (controller.queryById(t)
+                                .getData()))
+                        .isEmpty()
+                , "Template模块>>单个请求测试1：不存在的Id，未通过");
+        log.info("Template模块>>单个请求测试1：不存在的Id，通过");
+
+        t.setId("028b57c425f5da70b35f89376dbc4c09");
+        Assertions.assertFalse(((List<Template>)
+                        (controller.queryById(t)
+                                .getData()))
+                        .isEmpty()
+                , "Template模块>>单个请求测试2：存在的Id，未通过");
+        log.info("Template模块>>单个请求测试2：存在的Id，通过");
+
+        log.info("Template模块>>单个请求测试通过");
     }
 }

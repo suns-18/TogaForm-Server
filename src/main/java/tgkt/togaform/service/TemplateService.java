@@ -17,23 +17,26 @@ public class TemplateService {
 
     public int insert(Template t) {
         t.setId(BSONIDUtil.getOneId());
+        if(t.getTitle().equals("")||t.getTitle().equals(null)){
+            return 0;
+        }
         return repo.insert(t) == null
                 ? 0 : 1;
     }
 
     public int deleteById(Template t) {
-        try {
+            if(t.getTitle().equals("")||!repo.existsById(t.getId()))
+                return 0;
             repo.deleteById(t.getId());
             return 1;
-        } catch (Exception e) {
-            return 0;
-        }
     }
 
     public int update(Template t) {
-        if (repo.existsById(t.getId()))
+        if (!repo.existsById(t.getId()))
             return 0;
-
+        if(t.getTitle()==null||t.getTitle().equals("")){
+            return 0;
+        }
         repo.save(t);
         return 1;
     }
