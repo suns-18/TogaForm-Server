@@ -22,8 +22,11 @@ public class QuesnaireService {
     public int insert(Quesnaire q) {
         q.setId(BSONIDUtil.getOneId());
 
-        if (q.getSurveyType().isEmpty())
+        if (q.getSurveyType()==null)
             q.setSurveyType("类型1");
+        if(q.getTitle()==null||q.getTitle().equals("")){
+            return 0;
+        }
 
         q.setCreateTime(new Date());
         q.setAvailable(true);
@@ -34,6 +37,9 @@ public class QuesnaireService {
 
     public int deleteById(Quesnaire q) {
         try {
+            if(q.getId()==null){
+                return 0;
+            }
             q.setAvailable(false);
             repo.save(q);
             return 1;
@@ -45,7 +51,9 @@ public class QuesnaireService {
     public int update(Quesnaire q) {
         if (!repo.existsById(q.getId()))
             return 0;
-
+        if(q.getTitle()==null||q.getTitle().equals("")){
+            return 0;
+        }
         repo.save(q);
         return 1;
     }

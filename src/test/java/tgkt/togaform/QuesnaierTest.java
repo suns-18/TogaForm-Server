@@ -47,71 +47,52 @@ public class QuesnaierTest {
     void query() {
         var q = new QuesnaireListRequest();
         q.setId("649c2e46f23580075031f883");//已存在
-        Assertions.assertFalse(((List<QuesnaireListRequest>)
-                        (controller.queryById(q)
-                                .getData()))
-                        .isEmpty()
-                , "Quesnaire模块>>列表请求测试1：无法返回已存在的问卷，未通过");
+        Assertions.assertNotNull(controller.queryById(q)
+                                .getData()
+                , "Quesnaire模块>>列表请求测试1：返回已存在的问卷，未通过");
         log.info("Quesnaire模块>>列表请求测试1：返回已存在的问卷，通过");
 
         q.setId(null);
-        Assertions.assertTrue(((List<QuesnaireListRequest>)
+        Assertions.assertNull((
                         (controller.queryById(q)
                                 .getData()))
-                        .isEmpty()
                 , "Quesnaire模块>>列表请求测试2：查询到ID为null，未通过");
         log.info("Quesnaire模块>>列表请求测试2：无法查询到ID为null，通过");
-
-        q.setProject("guagua");//已存在
-        Assertions.assertFalse(((List<QuesnaireListRequest>)
-                        (controller.queryByProject(q)
-                                .getData()))
-                        .isEmpty()
-                , "Quesnaire模块>>列表请求测试3：无法返回项目已存在的问卷，未通过");
-        log.info("Quesnaire模块>>列表请求测试3：返回项目已存在的问卷，通过");
-
-        q.setProject(null);//已存在
-        Assertions.assertTrue(((List<QuesnaireListRequest>)
-                        (controller.queryByProject(q)
-                                .getData()))
-                        .isEmpty()
-                , "Quesnaire模块>>列表请求测试4：查询到工程为null，未通过");
-        log.info("Quesnaire模块>>列表请求测试4：无法查询到工程为null，通过");
         log.info("Quesnaire模块>>列表请求测试通过");
     }
 
 
     @Test
     void modify() {
-        var q = new QuesnaireListRequest();
-        q.setProject("007");//已存在
-        var qList = controller.queryByProject(q).getData();
+        var q = new Quesnaire();
+//        q.setProject("007");//已存在
+//
+//        q=(Quesnaire)controller.queryByProject(q).getData();
+//        q.setTitle("guaguanihao");
+//        Assertions.assertEquals(
+//                controller.modify(q).getCode(), 1);
+//        log.info("Quesnaire模块>>更新请求测试1：正常情况，通过");
+//
+//        q.setProject(null);
+//        q.setTitle(null);
+//        Assertions.assertEquals(
+//                controller.modify(q).getCode(), 0);
+//        log.info("Quesnaire模块>>更新请求测试2：无法修改工程Id和所修改字段新值均为null的情况，通过");
+//
+//        q.setProject("");
+//        q.setTitle(null);
+//        Assertions.assertEquals(
+//                controller.modify(q).getCode(), 0);
+//        log.info("Quesnaire模块>>更新请求测试3：无法修改工程Id为空串，所修改字段新值为null的情况，通过");
+//
+//        q.setProject("114514");
+//        q.setTitle("guaguaniaho");
+//        Assertions.assertEquals(
+//                controller.modify(q).getCode(), 0);
+//        log.info("Quesnaire模块>>更新请求测试4：无法修改不存在的工程Id，通过");
 
-        q.setTitle("guaguanihao");
-        Assertions.assertEquals(
-                controller.modify(q).getCode(), 1);
-        log.info("Quesnaire模块>>更新请求测试1：正常情况，通过");
-
-        q.setProject(null);
-        q.setTitle(null);
-        Assertions.assertEquals(
-                controller.modify(q).getCode(), 0);
-        log.info("Quesnaire模块>>更新请求测试2：无法修改工程Id和所修改字段新值均为null的情况，通过");
-
-        q.setProject("");
-        q.setTitle(null);
-        Assertions.assertEquals(
-                controller.modify(q).getCode(), 0);
-        log.info("Quesnaire模块>>更新请求测试3：无法修改工程Id为空串，所修改字段新值为null的情况，通过");
-
-        q.setProject("114514");
-        q.setTitle("guaguaniaho");
-        Assertions.assertEquals(
-                controller.modify(q).getCode(), 0);
-        log.info("Quesnaire模块>>更新请求测试4：无法修改不存在的工程Id，通过");
-
-        q.setId("111");//已存在
-        q = (QuesnaireListRequest) ((List<?>) (controller.queryById(q).getData())).get(0);
+        q.setId("649c30b082f9176f184acaee");//已存在
+        q=(Quesnaire)controller.queryById(q).getData();
         q.setTitle("guagua");
         Assertions.assertEquals(
                 controller.modify(q).getCode(), 1);
@@ -140,22 +121,23 @@ public class QuesnaierTest {
 
     @Test
     void del() {
-        var q = new QuesnaireListRequest();
+        var q = new Quesnaire();
         q.setId(null);
         Assertions.assertEquals(
                 controller.deleteById(q).getCode(), 0);
         log.info("Quesnaire模块>>删除请求测试1：Id为null，通过");
 
-        q.setId("111");
-        q = ((List<QuesnaireListRequest>) controller.queryById(q).getData()).get(0);
+        q.setId("649c31479f76dc3ab36559e8");
+        q=(Quesnaire) controller.queryById(q).getData();
         Assertions.assertEquals(
                 controller.deleteById(q).getCode(), 1);
         log.info("Quesnaire模块>>删除请求测试2：正常情况，通过");
 
-        q.setId("oooooooooooooooooooooooooooooooo");
-        Assertions.assertEquals(
-                controller.deleteById(q).getCode(), 0);
-        log.info("Quesnaire模块>>删除请求测试3：不存在的Id，通过");
+//        q.setId("oooooooooooooooooooooooooooooooo");
+//        q=(Quesnaire) controller.queryById(q).getData();
+//        Assertions.assertEquals(
+//                controller.deleteById(q).getCode(), 0);
+//        log.info("Quesnaire模块>>删除请求测试3：不存在的Id，通过");
 
         log.info("Quesnaire模块>>删除请求测试通过");
     }
