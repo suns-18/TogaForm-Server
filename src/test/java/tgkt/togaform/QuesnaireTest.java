@@ -9,20 +9,17 @@ import org.springframework.stereotype.Component;
 import tgkt.togaform.controller.QuesnaireController;
 import tgkt.togaform.entity.Quesnaire;
 import tgkt.togaform.request.QuesnaireListRequest;
-import tgkt.togaform.response.HttpResponse;
 import tgkt.togaform.service.QuestionService;
-
-import java.util.List;
 
 
 @SpringBootTest
 @Component
-public class QuesnaierTest {
+public class QuesnaireTest {
     @Autowired
     QuesnaireController controller;
     @Autowired
     QuestionService service;
-    Logger log = Logger.getLogger(QuesnaierTest.class);
+    Logger log = Logger.getLogger(QuesnaireTest.class);
     @Test
     void add() {
         var q = new Quesnaire();

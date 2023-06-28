@@ -6,10 +6,8 @@ import tgkt.togaform.entity.Quesnaire;
 import tgkt.togaform.repo.QuesnaireRepo;
 import tgkt.togaform.request.QuesnaireListRequest;
 import tgkt.togaform.response.ListResponse;
-import tgkt.togaform.response.QuesnaireFinishResponse;
 import tgkt.togaform.util.BSONIDUtil;
 
-import java.util.ArrayList;
 import java.util.Date;
 
 @Service
@@ -22,9 +20,10 @@ public class QuesnaireService {
     public int insert(Quesnaire q) {
         q.setId(BSONIDUtil.getOneId());
 
-        if (q.getSurveyType()==null)
+        if (q.getSurveyType() == null)
             q.setSurveyType("类型1");
-        if(q.getTitle()==null||q.getTitle().equals("")){
+        if (q.getTitle() == null ||
+                q.getTitle().equals("")) {
             return 0;
         }
 
@@ -37,11 +36,9 @@ public class QuesnaireService {
 
     public int deleteById(Quesnaire q) {
         try {
-            if(q.getId()==null ||
-                    !repo.existsById(q.getId())
-            || !selectById(q.getId()).isAvailable())
+            if (q.getId() == null) {
                 return 0;
-
+            }
             q.setAvailable(false);
             repo.save(q);
             return 1;
@@ -53,7 +50,7 @@ public class QuesnaireService {
     public int update(Quesnaire q) {
         if (!repo.existsById(q.getId()))
             return 0;
-        if(q.getTitle()==null||q.getTitle().equals("")){
+        if (q.getTitle() == null || q.getTitle().equals("")) {
             return 0;
         }
         repo.save(q);
