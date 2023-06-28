@@ -21,15 +21,12 @@ public class QuestionService {
                 ? 0 : 1;
     }
     public int deleteById(Question q) {
-        try {
             if(q.getId()==null ||
                     !repo.existsById(q.getId()))
                 return 0;
             repo.deleteById(q.getId());
             return 1;
-        } catch (Exception e) {
-            return 0;
-        }
+
     }
     public int update(Question q) {
         if (!repo.existsById(q.getId()))
