@@ -29,7 +29,11 @@ public class QuesnaireService {
         if (q.getStartTime() == null)
             q.setStartTime(new Date());
 
+        if (q.getSurveyType().isEmpty())
+            q.setSurveyType("类型1");
+
         q.setCreateTime(new Date());
+        q.setAvailable(true);
 
         return repo.insert(q) == null
                 ? 0 : 1;
@@ -37,7 +41,8 @@ public class QuesnaireService {
 
     public int deleteById(Quesnaire q) {
         try {
-            repo.deleteById(q.getId());
+            q.setAvailable(false);
+            repo.save(q);
             return 1;
         } catch (Exception e) {
             return 0;
@@ -45,7 +50,7 @@ public class QuesnaireService {
     }
 
     public int update(Quesnaire q) {
-        if (repo.existsById(q.getId()))
+        if (!repo.existsById(q.getId()))
             return 0;
 
         repo.save(q);
@@ -68,8 +73,12 @@ public class QuesnaireService {
                 req.getStart() / req.getLimit() + 1
                 : -1;
 
+        var list = repo.findByProject(req.getProject());
+
+        list.removeIf(e -> !e.isAvailable());
+
         return ListResponse.builder()
-                .data(repo.findByProject(req.getProject()))
+                .data(list)
                 .totalPage(totalPage)
                 .currentPage(currentPage)
                 .build();
@@ -118,6 +127,7 @@ public class QuesnaireService {
             });
         });
 
+        orderedList.removeIf(e -> !e.getQuesnaire().isAvailable());
         orderedList.subList(req.getStart(), req.getStart() + req.getLimit());
 
         var totalPage = req.getLimit() != 0 ?
@@ -128,7 +138,7 @@ public class QuesnaireService {
                 : -1;
 
         return ListResponse.builder()
-                .data(repo.findByProject(req.getProject()))
+                .data(orderedList)
                 .totalPage(totalPage)
                 .currentPage(currentPage)
                 .build();
