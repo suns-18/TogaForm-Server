@@ -37,9 +37,11 @@ public class QuesnaireService {
 
     public int deleteById(Quesnaire q) {
         try {
-            if(q.getId()==null){
+            if(q.getId()==null ||
+                    !repo.existsById(q.getId())
+            || !selectById(q.getId()).isAvailable())
                 return 0;
-            }
+
             q.setAvailable(false);
             repo.save(q);
             return 1;

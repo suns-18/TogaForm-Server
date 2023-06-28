@@ -65,32 +65,6 @@ public class QuesnaierTest {
     @Test
     void modify() {
         var q = new Quesnaire();
-//        q.setProject("007");//已存在
-//
-//        q=(Quesnaire)controller.queryByProject(q).getData();
-//        q.setTitle("guaguanihao");
-//        Assertions.assertEquals(
-//                controller.modify(q).getCode(), 1);
-//        log.info("Quesnaire模块>>更新请求测试1：正常情况，通过");
-//
-//        q.setProject(null);
-//        q.setTitle(null);
-//        Assertions.assertEquals(
-//                controller.modify(q).getCode(), 0);
-//        log.info("Quesnaire模块>>更新请求测试2：无法修改工程Id和所修改字段新值均为null的情况，通过");
-//
-//        q.setProject("");
-//        q.setTitle(null);
-//        Assertions.assertEquals(
-//                controller.modify(q).getCode(), 0);
-//        log.info("Quesnaire模块>>更新请求测试3：无法修改工程Id为空串，所修改字段新值为null的情况，通过");
-//
-//        q.setProject("114514");
-//        q.setTitle("guaguaniaho");
-//        Assertions.assertEquals(
-//                controller.modify(q).getCode(), 0);
-//        log.info("Quesnaire模块>>更新请求测试4：无法修改不存在的工程Id，通过");
-
         q.setId("649c30b082f9176f184acaee");//已存在
         q=(Quesnaire)controller.queryById(q).getData();
         q.setTitle("guagua");
@@ -127,17 +101,17 @@ public class QuesnaierTest {
                 controller.deleteById(q).getCode(), 0);
         log.info("Quesnaire模块>>删除请求测试1：Id为null，通过");
 
-        q.setId("649c31479f76dc3ab36559e8");
+        q.setId("649c32ce6e79593de44a4d7a");
         q=(Quesnaire) controller.queryById(q).getData();
         Assertions.assertEquals(
                 controller.deleteById(q).getCode(), 1);
         log.info("Quesnaire模块>>删除请求测试2：正常情况，通过");
 
-//        q.setId("oooooooooooooooooooooooooooooooo");
-//        q=(Quesnaire) controller.queryById(q).getData();
-//        Assertions.assertEquals(
-//                controller.deleteById(q).getCode(), 0);
-//        log.info("Quesnaire模块>>删除请求测试3：不存在的Id，通过");
+        q.setId("iiiiiiiiiiiiiiiiiiiiiiiii");
+        q=(Quesnaire) controller.queryById(q).getData();
+        Assertions.assertEquals(
+                controller.deleteById(q).getCode(), 0);
+        log.info("Quesnaire模块>>删除请求测试3：不存在的Id，通过");
 
         log.info("Quesnaire模块>>删除请求测试通过");
     }
