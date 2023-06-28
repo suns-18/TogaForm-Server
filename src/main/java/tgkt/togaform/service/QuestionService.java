@@ -1,10 +1,11 @@
 package tgkt.togaform.service;
 
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import tgkt.togaform.entity.Question;
 import tgkt.togaform.repo.QuestionRepo;
-
+import tgkt.togaform.util.BSONIDUtil;
 
 
 @Service
@@ -12,6 +13,7 @@ public class QuestionService {
     @Autowired
     private QuestionRepo repo;
     public int insert(Question q) {
+        q.setId(BSONIDUtil.getOneId());
         return repo.insert(q) == null
                 ? 0 : 1;
     }
