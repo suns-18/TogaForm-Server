@@ -13,10 +13,6 @@ public interface QuesnaireRepo extends
         MongoRepository<Quesnaire, String> {
     @Override
     <S extends Quesnaire> S insert(S entity);
-
-    @Override
-    void deleteById(String s);
-
     @Override
     <S extends Quesnaire> S save(S entity);
 

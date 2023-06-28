@@ -17,6 +17,7 @@ import java.util.List;
 public class Quesnaire {
     private String id;
     private String title;
+    private boolean available;
 
     private Date createTime;
     private Date startTime;
