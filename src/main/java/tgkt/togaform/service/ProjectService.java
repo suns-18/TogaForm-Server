@@ -23,17 +23,21 @@ public class ProjectService {
     private QuesnaireService quesnaireService;
 
     public int insert(Project project) throws NullPointerException {
-        if (project.getProjectName().isEmpty())
+        if (project.getProjectName()==null||project.getProjectName().equals(""))
             return 0;
         project.setId(UUIDUtil.getOneUUID());
         return mapper.insert(project);
     }
 
     public int deleteById(Project project) {
+        if(project.getId()==null)
+            return 0;
         return mapper.deleteById(project.getId());
     }
 
     public int update(Project project) {
+        if (project.getProjectName()==null||project.getProjectName().equals(""))
+            return 0;
         return mapper.update(project);
     }
 
