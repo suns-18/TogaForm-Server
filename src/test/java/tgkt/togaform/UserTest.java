@@ -20,8 +20,8 @@ public class UserTest {
     UserController controller;
     @Autowired
     UserService userService;
-    Logger log = Logger.getLogger(ProjectTest.class);
-/*
+    Logger log = Logger.getLogger(UserTest.class);
+
     @Test
     void queryList() {
         UserListRequest u = new UserListRequest();
@@ -59,17 +59,17 @@ public class UserTest {
         var u = new User();
         u.setUsername("test1");
         Assertions.assertEquals(
-                controller.add(u).getCode(), "1");
+                controller.add(u).getCode(), 1);
         log.info("User模块>>添加请求测试1：正常情况，通过");
 
         u.setUsername(null);
         Assertions.assertEquals(
-                controller.add(u).getCode(), "0");
+                controller.add(u).getCode(), 0);
         log.info("User模块>>添加请求测试2：用户名为null，通过");
 
         u.setUsername("");
         Assertions.assertEquals(
-                controller.add(u).getCode(), "0");
+                controller.add(u).getCode(), 0);
         log.info("User模块>>添加请求测试3：工程名为空字符串，通过");
 
         log.info("User模块>>添加请求测试通过");
@@ -77,29 +77,31 @@ public class UserTest {
 
     @Test
     void modify() {
-        var u = new UserListRequest();
-        u = (UserListRequest) ((List<?>) (controller.queryList(u).getData())).get(0);
+        var ur = new UserListRequest();
+        var u = new User();
+        var data = ((List<User>) controller.queryList(ur).getData());
+        u = data.get(0);
         u.setUsername("admin");
         Assertions.assertEquals(
-                controller.modify(u).getCode(), "1");
+                controller.modify(u).getCode(), 1);
         log.info("User模块>>更新请求测试1：正常情况，通过");
 
         u.setId(null);
         u.setUsername(null);
         Assertions.assertEquals(
-                controller.modify(u).getCode(), "0");
+                controller.modify(u).getCode(), 0);
         log.info("User模块>>更新请求测试2：Id和所修改字段新值均为null，通过");
 
         u.setId("");
         u.setUsername(null);
         Assertions.assertEquals(
-                controller.modify(u).getCode(), "0");
+                controller.modify(u).getCode(), 0);
         log.info("User模块>>更新请求测试3：Id为空串，所修改字段新值为null，通过");
 
         u.setId("114514");
         u.setUsername(null);
         Assertions.assertEquals(
-                controller.modify(u).getCode(), "0");
+                controller.modify(u).getCode(), 0);
         log.info("User模块>>更新请求测试4：错误的Id，通过");
 
         log.info("User模块>>更新请求测试通过");
@@ -107,21 +109,23 @@ public class UserTest {
 
     @Test
     void del() {
-        var u = new UserListRequest();
+        var ur = new UserListRequest();
+        var u = new User();
+        var data = ((List<User>) controller.queryList(ur).getData());
+        u = data.get(1);
+        Assertions.assertEquals(
+                controller.deleteById(u).getCode(),1);
+        log.info("User模块>>删除请求测试1：正常情况，通过");
+
         u.setId(null);
         Assertions.assertEquals(
                 controller.deleteById(u).getCode(), 0);
-        log.info("User模块>>删除请求测试1：Id为null，通过");
+        log.info("User模块>>删除请求测试2：Id为null，通过");
 
-        u.setUsername("test");
-        u = (UserListRequest) ((List<User>) controller.queryList(u).getData()).get(0);
-        Assertions.assertEquals(1,
-                controller.deleteById(u).getCode());
-        log.info("User模块>>删除请求测试2：正常情况，通过");
 
         u.setId("adasdasdasdasdassdasdasdasdasdasdasdasdsadasd");
-        Assertions.assertEquals(0,
-                controller.deleteById(u).getCode());
+        Assertions.assertEquals(
+                controller.deleteById(u).getCode(),0);
         log.info("User模块>>删除请求测试3：不存在的Id，通过");
 
         log.info("User模块>>删除请求测试通过");
@@ -154,5 +158,5 @@ public class UserTest {
         log.info("User模块>>登陆请求测试4：用户名或密码错误，通过");
 
         log.info("User模块>>删除请求测试通过");
-    }*/
+    }
 }
