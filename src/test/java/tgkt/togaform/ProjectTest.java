@@ -7,9 +7,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import tgkt.togaform.controller.ProjectController;
 import tgkt.togaform.entity.Project;
+import tgkt.togaform.entity.Template;
 import tgkt.togaform.request.ProjectListRequest;
 import tgkt.togaform.service.ProjectService;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @SpringBootTest
@@ -74,11 +76,19 @@ class ProjectTest {
     @Test
     void del() {
         var p = new Project();
+
         p.setId(null);
         Assertions.assertEquals(
                 controller.deleteById(p).getCode(), 0);
         log.info("Project模块>>删除请求测试1：Id为null，通过");
-        p.setId("7cd5edcb71503fed2f0efd522bcd0da5");
+        var pr = new ProjectListRequest();
+        pr.setStart(1);
+        pr.setLimit(10);
+        var data = controller.queryList(pr)
+                .getData();
+        var dataList = new ArrayList<>();
+        dataList.addAll((List<Project>)data);
+
         p.setProjectName("test");
         Assertions.assertEquals(
                 controller.deleteById(p).getCode(), 1);
@@ -117,10 +127,10 @@ class ProjectTest {
     @Test
     void querySingle() {
         var p = new Project();
-        p.setId("11111111111");
+        p.setId(null);
         Assertions.assertEquals(
                 controller.queryById(p).getCode(), 0);
-        log.info("Project模块>>单个请求测试1：无法查询不存在的Id，通过");
+        log.info("Project模块>>单个请求测试1：无法查询为null的Id，通过");
 
         p.setId("3697c089e44f7f29cc42566e5a9a38ce");
         Assertions.assertEquals(

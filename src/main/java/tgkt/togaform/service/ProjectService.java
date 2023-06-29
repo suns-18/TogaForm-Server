@@ -42,6 +42,9 @@ public class ProjectService {
     }
 
     public Project selectById(Project project) {
+        if(project.getId()==null){
+            return null;
+        }
         return mapper.selectById(project);
     }
 
