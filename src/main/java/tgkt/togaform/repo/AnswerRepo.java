@@ -20,6 +20,7 @@ public interface AnswerRepo extends
     void deleteById(String s);
     List<Answer> findByQuesnaire(String quesnaireId);
 
+    List<Answer> findByUserId(String userId);
     @Override
     Optional<Answer> findById(String s);
 
@@ -27,4 +28,6 @@ public interface AnswerRepo extends
 
     @Override
      long count();
+
+
 }

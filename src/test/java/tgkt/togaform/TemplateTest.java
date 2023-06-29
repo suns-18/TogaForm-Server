@@ -1,8 +1,7 @@
 package tgkt.togaform;
 
 import org.apache.log4j.Logger;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.stereotype.Component;
@@ -16,8 +15,8 @@ import java.util.List;
 
 
 @SpringBootTest
-@Component
-public class TemplateTest {
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+class TemplateTest {
     @Autowired
     TemplateController controller;
     @Autowired
@@ -26,8 +25,10 @@ public class TemplateTest {
 
 
     @Test
+    @Order(1)
     void add() {
         var t = new Template();
+        t.setId("test");
         t.setTitle("test1");
         Assertions.assertEquals(
                 controller.add(t).getCode(), 1);
@@ -47,9 +48,10 @@ public class TemplateTest {
     }
 
     @Test
+    @Order(3)
     void modify() {
         var t = new Template();
-        t.setId("649d0912553e711ae3879179");
+        t.setId("test");
         t.setTitle("guagua");
         Assertions.assertEquals(
                 controller.modify(t).getCode(), 1);
@@ -77,24 +79,15 @@ public class TemplateTest {
     }
 
     @Test
+    @Order(4)
     void del() {
         var t = new Template();
         t.setId(null);
         Assertions.assertEquals(
                 controller.deleteById(t).getCode(), 0);
         log.info("Template模块>>删除请求测试1：Id为null，通过");
-        var tr = new TemplateListRequest();
-        tr.setPage(1);
-        tr.setSize(10);
-        var data=(List<Template>)controller.queryList(tr).getData();
-//        var i = 0;
-//        for (i=0;i<data.size();i++){
-//            if(data.get(i).getTitle()!=null){
-//                t=data.get(i);
-//                break;
-//            }
-//        }
-        t=data.get(0);
+
+        t.setId("test");
         Assertions.assertEquals(
                 controller.deleteById(t).getCode(), 1);
         log.info("Template模块>>删除请求测试2：正常情况，通过");
@@ -108,6 +101,7 @@ public class TemplateTest {
     }
 
     @Test
+    @Order(2)
     void queryList() {
         var tr = new TemplateListRequest();
         tr.setPage(1);
@@ -131,6 +125,33 @@ public class TemplateTest {
     }
 
     @Test
+    @Order(2)
+    void queryByTitleLike() {
+        var tr = new TemplateListRequest();
+        tr.setPage(1);
+        tr.setSize(10);
+        tr.setTitle("1");
+        var data = controller.queryList(tr)
+                .getData();
+        var dataList = new ArrayList<>();
+        dataList.addAll((List<Template>)data);
+        Assertions.assertEquals(dataList
+                .isEmpty(), false, "Template模块>>列表模糊查询请求测试1：期望列表不为空，未通过");
+        log.info("Template模块>>列表模糊查询请求测试1：期望列表不为空，通过");
+
+        var t = new Template();
+        t.setTitle("实打实大大sasda");
+        Assertions.assertFalse(((List<Template>)
+                (controller.queryList(tr)
+                        .getData()))
+                .isEmpty(),  "Template模块>>列表请求测试2：期望列表为空，未通过");
+        log.info("Template模块>>列表请求测试2：期望列表不为空，通过");
+
+        log.info("Template模块>>列表模糊查询请求测试通过");
+    }
+
+    @Test
+    @Order(2)
     void querySingle() {
         var t = new Template();
         t.setId("11111111111");

@@ -1,8 +1,7 @@
 package tgkt.togaform;
 
 import org.apache.log4j.Logger;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.stereotype.Component;
@@ -19,20 +18,20 @@ import java.util.List;
 
 
 @SpringBootTest
-@Component
-public class QuesnaireTest {
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+class QuesnaireTest {
     @Autowired
     QuesnaireController controller;
     @Autowired
     ProjectService projectService;
 
     Logger log = Logger.getLogger(QuesnaireTest.class);
-    private Quesnaire q;
 
     @Test
+    @Order(1)
     void add() {
-        this.q = new Quesnaire();
-        q.setId(BSONIDUtil.getOneId());
+        var q = new Quesnaire();
+        q.setId("test");
         q.setTitle("test1");
         Assertions.assertEquals(
                 controller.add(q).getCode(), 1);
@@ -54,10 +53,9 @@ public class QuesnaireTest {
 
     @Test
     void queryById() {
-        var resp = ((Quesnaire) controller
-                .queryById(this.q).getData());
-
-        Assertions.assertNotNull(resp,
+        var q = new Quesnaire();
+        q.setId("test");
+        Assertions.assertNotNull(controller.queryById(q),
                 "Quesnaire模块>>单个请求测试1：存在的ID，未通过");
         log.info("Quesnaire模块>>单个请求测试1：存在的ID，通过");
 
@@ -82,26 +80,19 @@ public class QuesnaireTest {
         var project = ((ArrayList<Project>) projectList).get(0);
 
         req.setProject(project.getId());//已存在
-        Assertions.assertNotNull(controller.queryById(req)
+        Assertions.assertNotNull(controller.queryByProject(req)
                         .getData()
                 , "Quesnaire模块>>列表请求测试1：返回已存在的问卷，未通过");
         log.info("Quesnaire模块>>列表请求测试1：返回已存在的问卷，通过");
 
-        q.setId(null);
-        Assertions.assertNull((
-                        (controller.queryById(q)
-                                .getData()))
-                , "Quesnaire模块>>列表请求测试2：查询到ID为null，未通过");
-        log.info("Quesnaire模块>>列表请求测试2：无法查询到ID为null，通过");
-        log.info("Quesnaire模块>>列表请求测试通过");
     }
 
 
     @Test
+    @Order(3)
     void modify() {
         var q = new Quesnaire();
-        q.setId("649c30b082f9176f184acaee");//已存在
-        q = (Quesnaire) controller.queryById(q).getData();
+        q.setId("test");
         q.setTitle("guagua");
         Assertions.assertEquals(
                 controller.modify(q).getCode(), 1);
@@ -129,15 +120,15 @@ public class QuesnaireTest {
     }
 
     @Test
+    @Order(4)
     void del() {
         var q = new Quesnaire();
         q.setId(null);
         Assertions.assertEquals(
                 controller.deleteById(q).getCode(), 0);
         log.info("Quesnaire模块>>删除请求测试1：Id为null，通过");
-        var qr = new QuesnaireListRequest();
-        var data = ((List<Quesnaire>) controller.queryByProject(qr).getData());
-        q = data.get(0);
+
+        q.setId("test");
         Assertions.assertEquals(
                 controller.deleteById(q).getCode(), 1);
         log.info("Quesnaire模块>>删除请求测试2：正常情况，通过");

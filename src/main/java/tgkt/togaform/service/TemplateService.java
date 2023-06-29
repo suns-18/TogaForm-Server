@@ -29,7 +29,7 @@ public class TemplateService {
 
     public int deleteById(Template t) {
 
-        if (t.getTitle().equals("") || !repo.existsById(t.getId()))
+        if (t.getId().equals("") || !repo.existsById(t.getId()))
             return 0;
         repo.deleteById(t.getId());
         return 1;

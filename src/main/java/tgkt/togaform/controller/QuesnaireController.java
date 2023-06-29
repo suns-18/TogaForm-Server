@@ -104,20 +104,19 @@ public class QuesnaireController {
             if (result == null)
                 resp = HttpResponse.builder()
                         .code(0)
-                        .data(result)
                         .message("查询不到该问卷")
                         .build();
             else
                 resp = HttpResponse.builder()
                         .code(1)
-                        .data(result)
                         .message("查询成功")
                         .build();
         } catch (Exception e) {
             resp = HttpResponse.builder()
                     .code(0)
                     .message("数据库访问错误")
-                    .build();e.printStackTrace();
+                    .build();
+            e.printStackTrace();
         }
         return resp;
     }
@@ -126,25 +125,26 @@ public class QuesnaireController {
             method = RequestMethod.POST)
     public HttpResponse queryByProject(@RequestBody QuesnaireListRequest req) {
         HttpResponse resp;
-            try {
-                resp = service.selectByProject(req);
-                if (((List<Quesnaire>) (resp.getData())).isEmpty()) {
-                    resp.setCode(1);
-                    resp.setMessage("列表为空");
-                } else {
-                    resp.setCode(1);
-                    resp.setMessage("查询成功");
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-                resp = HttpResponse.builder()
-                        .code(0)
-                        .message("数据库访问错误")
-                        .data(e.getMessage())
-                        .build();
+        try {
+            resp = service.selectByProject(req);
+            if (((List<Quesnaire>) (resp.getData())).isEmpty()) {
+                resp.setCode(1);
+                resp.setMessage("列表为空");
+            } else {
+                resp.setCode(1);
+                resp.setMessage("查询成功");
             }
-            return resp;
+        } catch (Exception e) {
+            e.printStackTrace();
+            resp = HttpResponse.builder()
+                    .code(0)
+                    .message("数据库访问错误")
+                    .data(e.getMessage())
+                    .build();
+        }
+        return resp;
     }
+    /*
 
         @PostMapping("/queryByUser")
     public HttpResponse queryByUser(@RequestBody QuesnaireListRequest req
@@ -169,5 +169,5 @@ public class QuesnaireController {
                     .build();
         }
         return resp;
-    }
+    }*/
 }

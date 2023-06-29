@@ -5,3 +5,10 @@ Content-Type: application/json
 {
   "project": "13f614a14972aaad81ad230443eff4b2"
 }
+### QueryById
+POST http://127.0.0.1:8085/api/quesnaire/queryById
+Content-Type: application/json
+
+{
+  "id": "13f614a14972aaad81ad230443eff4b2"
+}

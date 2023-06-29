@@ -115,13 +115,13 @@ public class UserController {
     }
 
     @RequestMapping(value = "/queryById", method = RequestMethod.POST)
-    public HttpResponse queryById(@RequestBody UserListRequest req) {
+    public HttpResponse queryById(@RequestBody User user) {
         HttpResponse resp;
         try {
-            var result = userService.selectById(req);
+            var result = userService.selectById(user);
             if (result == null) {
                 resp = HttpResponse.builder()
-                        .code(1)
+                        .code(0)
                         .message("查询不到该用户")
                         .build();
             } else {

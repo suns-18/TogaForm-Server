@@ -1,0 +1,11 @@
+### add
+POST http://127.0.0.1:8085/api/answer/add
+Content-Type: application/json
+
+{
+  "id": "1",
+  "userId": "0df0adc5cf1b776390b1df52987b1169",
+  "quesnaire": "nihao"
+
+
+}

@@ -104,11 +104,19 @@ public class ProjectController {
         HttpResponse resp;
         try {
             var result = projectService.selectById(project);
+            if(result!=null){
             resp = HttpResponse.builder()
                     .code(1)
                     .message("查询成功")
                     .data(result)
                     .build();
+            }else {
+                resp = HttpResponse.builder()
+                    .code(0)
+                    .message("查询失败")
+                    .build();
+
+            }
         } catch (Exception e) {
             resp = HttpResponse.builder()
                     .code(0)
