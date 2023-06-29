@@ -83,10 +83,14 @@ public class TemplateTest {
         Assertions.assertEquals(
                 controller.deleteById(t).getCode(), 0);
         log.info("Template模块>>删除请求测试1：Id为null，通过");
-//        t.setId("649c10917337265281718808");
-//        Assertions.assertEquals(
-//                controller.deleteById(t).getCode(), 1);
-//        log.info("Template模块>>删除请求测试2：正常情况，通过");
+        var tr = new TemplateListRequest();
+        tr.setPage(1);
+        tr.setSize(10);
+        var data=(List<Template>)controller.queryList(tr).getData();
+        t=data.get(0);
+        Assertions.assertEquals(
+                controller.deleteById(t).getCode(), 1);
+        log.info("Template模块>>删除请求测试2：正常情况，通过");
 
         t.setId("oooooooooooooooooooooooooooooooo");
         Assertions.assertEquals(
