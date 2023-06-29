@@ -13,17 +13,21 @@ public class UserService {
     @Autowired
     private UserMapper mapper;
 
+
     public int insert(User user) throws NullPointerException {
         if (user.getUsername().isEmpty())
             return 0;
-        user.setId(UUIDUtil.getOneUUID());
+        if (user.getId() == null || user.getId().isEmpty())
+            user.setId(UUIDUtil.getOneUUID());
         return mapper.insert(user);
     }
+
     public int deleteById(User user) {
         return mapper.deleteById(user);
     }
+
     public int update(User user) {
-        if(user.getId()==null||user.getId().equals("")||user.getUsername().equals("")||user.getUsername()==null)
+        if (user.getId() == null || user.getId().equals("") || user.getUsername().equals("") || user.getUsername() == null)
             return 0;
         return mapper.update(user);
     }

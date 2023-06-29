@@ -14,6 +14,7 @@ import tgkt.togaform.util.UUIDUtil;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class ProjectService {
@@ -23,26 +24,29 @@ public class ProjectService {
     private QuesnaireService quesnaireService;
 
     public int insert(Project project) throws NullPointerException {
-        if (project.getProjectName()==null||project.getProjectName().equals(""))
+        if (project.getId() == null || project.getId().isEmpty())
+            project.setId(UUIDUtil.getOneUUID());
+
+        if (project.getProjectName() == null || project.getProjectName().equals(""))
             return 0;
-        project.setId(UUIDUtil.getOneUUID());
+
         return mapper.insert(project);
     }
 
     public int deleteById(Project project) {
-        if(project.getId()==null)
+        if (project.getId() == null)
             return 0;
         return mapper.deleteById(project.getId());
     }
 
     public int update(Project project) {
-        if (project.getProjectName()==null||project.getProjectName().equals(""))
+        if (project.getProjectName() == null || project.getProjectName().equals(""))
             return 0;
         return mapper.update(project);
     }
 
     public Project selectById(Project project) {
-        if(project.getId()==null){
+        if (project.getId() == null) {
             return null;
         }
         return mapper.selectById(project);

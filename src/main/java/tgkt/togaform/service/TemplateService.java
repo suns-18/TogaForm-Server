@@ -16,8 +16,11 @@ public class TemplateService {
     private TemplateRepo repo;
 
     public int insert(Template t) {
-        t.setId(BSONIDUtil.getOneId());
-        if(t.getTitle().equals("")||t.getTitle().equals(null)){
+        if (t.getId() == null
+                || t.getId().isEmpty())
+            t.setId(BSONIDUtil.getOneId());
+
+        if (t.getTitle().equals("") || t.getTitle().equals(null)) {
             return 0;
         }
         return repo.insert(t) == null
@@ -25,16 +28,17 @@ public class TemplateService {
     }
 
     public int deleteById(Template t) {
-        if(t.getTitle().equals("")||!repo.existsById(t.getId()))
-                return 0;
+
+        if (t.getTitle().equals("") || !repo.existsById(t.getId()))
+            return 0;
         repo.deleteById(t.getId());
-            return 1;
+        return 1;
     }
 
     public int update(Template t) {
         if (!repo.existsById(t.getId()))
             return 0;
-        if(t.getTitle()==null||t.getTitle().equals("")){
+        if (t.getTitle() == null || t.getTitle().equals("")) {
             return 0;
         }
         repo.save(t);
@@ -71,7 +75,7 @@ public class TemplateService {
 
         System.out.println(repo.countByTitleLike(req.getTitle()));
         var totalPage = req.getSize() != 0 ?
-                (int)(repo.countByTitleLike(req.getTitle())) / req.getSize() + 1
+                (int) (repo.countByTitleLike(req.getTitle())) / req.getSize() + 1
                 : -1;
         var currentPage = req.getPage() > 0 &&
                 req.getPage() <= totalPage ? req.getPage() :
@@ -79,7 +83,7 @@ public class TemplateService {
 
         return ListResponse.builder()
                 .data(repo.findByTitleLike(PageRequest.of(
-                                req.getPage()-1,
+                                req.getPage() - 1,
                                 req.getSize()),
                         req.getTitle()
                 ).get().toList())

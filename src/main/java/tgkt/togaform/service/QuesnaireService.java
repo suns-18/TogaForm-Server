@@ -18,7 +18,9 @@ public class QuesnaireService {
     // private AnswerService answerService;
 
     public int insert(Quesnaire q) {
-        q.setId(BSONIDUtil.getOneId());
+        if (q.getId() == null
+                || q.getId().isEmpty())
+            q.setId(BSONIDUtil.getOneId());
 
         if (q.getSurveyType() == null)
             q.setSurveyType("类型1");
