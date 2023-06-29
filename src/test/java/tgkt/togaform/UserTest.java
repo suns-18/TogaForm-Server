@@ -22,42 +22,12 @@ public class UserTest {
     UserService userService;
     Logger log = Logger.getLogger(UserTest.class);
 
-    @Test
-    void queryList() {
-        UserListRequest u = new UserListRequest();
-        u.setUsername("啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊");
-        // 该不会有人叫这个名吧
-        Assertions.assertTrue(((List<User>)
-                        (controller.queryList(u)
-                                .getData()))
-                        .isEmpty()
-                , "User模块>>列表请求测试1：未查询到用户列表，未通过");
-        log.info("User模块>>列表请求测试1：查询到用户列表，通过");
-
-        u.setUsername("g");
-        Assertions.assertFalse(((List<User>)
-                        (controller.queryList(u)
-                                .getData()))
-                        .isEmpty()
-                , "User模块>>列表请求测试2：根据用户名模糊查询，未通过");
-
-        log.info("User模块>>列表请求测试2：根据用户名模糊查询，通过");
-
-        u.setUsername(null);
-        Assertions.assertFalse(((List<User>)
-                        (controller.queryList(u)
-                                .getData()))
-                        .isEmpty()
-                , "User模块>>列表请求测试3：用户名为null，未通过");
-        log.info("User模块>>列表请求测试3：用户名为null，通过");
-
-        log.info("User模块>>列表请求测试通过");
-    }
-
+    private User u;
     @Test
     void add() {
         var u = new User();
         u.setUsername("test1");
+        u.setRole(1);
         Assertions.assertEquals(
                 controller.add(u).getCode(), 1);
         log.info("User模块>>添加请求测试1：正常情况，通过");
@@ -112,7 +82,15 @@ public class UserTest {
         var ur = new UserListRequest();
         var u = new User();
         var data = ((List<User>) controller.queryList(ur).getData());
-        u = data.get(1);
+//        var i =0;
+//        for(i=0;i<data.size();i++){
+//            if((data.get(i).getRole())==2){
+//                u = data.get(i);
+//                break;
+//            }
+//        }
+//        System.out.println(u.toString());
+        u=data.get(0);
         Assertions.assertEquals(
                 controller.deleteById(u).getCode(),1);
         log.info("User模块>>删除请求测试1：正常情况，通过");
@@ -158,5 +136,36 @@ public class UserTest {
         log.info("User模块>>登陆请求测试4：用户名或密码错误，通过");
 
         log.info("User模块>>删除请求测试通过");
+    }
+    @Test
+    void queryList() {
+        UserListRequest u = new UserListRequest();
+        u.setUsername("啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊");
+        // 该不会有人叫这个名吧
+        Assertions.assertTrue(((List<User>)
+                        (controller.queryList(u)
+                                .getData()))
+                        .isEmpty()
+                , "User模块>>列表请求测试1：未查询到用户列表，未通过");
+        log.info("User模块>>列表请求测试1：查询到用户列表，通过");
+
+        u.setUsername("g");
+        Assertions.assertFalse(((List<User>)
+                        (controller.queryList(u)
+                                .getData()))
+                        .isEmpty()
+                , "User模块>>列表请求测试2：根据用户名模糊查询，未通过");
+
+        log.info("User模块>>列表请求测试2：根据用户名模糊查询，通过");
+
+        u.setUsername(null);
+        Assertions.assertFalse(((List<User>)
+                        (controller.queryList(u)
+                                .getData()))
+                        .isEmpty()
+                , "User模块>>列表请求测试3：用户名为null，未通过");
+        log.info("User模块>>列表请求测试3：用户名为null，通过");
+
+        log.info("User模块>>列表请求测试通过");
     }
 }

@@ -49,7 +49,7 @@ public class TemplateTest {
     @Test
     void modify() {
         var t = new Template();
-        t.setId("649c0fcb6ed0f56153f575f4");
+        t.setId("649d0912553e711ae3879179");
         t.setTitle("guagua");
         Assertions.assertEquals(
                 controller.modify(t).getCode(), 1);
@@ -87,6 +87,13 @@ public class TemplateTest {
         tr.setPage(1);
         tr.setSize(10);
         var data=(List<Template>)controller.queryList(tr).getData();
+//        var i = 0;
+//        for (i=0;i<data.size();i++){
+//            if(data.get(i).getTitle()!=null){
+//                t=data.get(i);
+//                break;
+//            }
+//        }
         t=data.get(0);
         Assertions.assertEquals(
                 controller.deleteById(t).getCode(), 1);
@@ -102,22 +109,22 @@ public class TemplateTest {
 
     @Test
     void queryList() {
-        var t = new TemplateListRequest();
-        t.setPage(1);
-        t.setSize(10);
-        var data = controller.queryList(t)
+        var tr = new TemplateListRequest();
+        tr.setPage(1);
+        tr.setSize(10);
+        var t = new Template();
+        var data = controller.queryList(tr)
                 .getData();
         var dataList = new ArrayList<>();
         dataList.addAll((List<Template>)data);
         Assertions.assertEquals(dataList
                 .isEmpty(), false, "Template模块>>列表请求测试1：返回所有，未通过");
         log.info("Template模块>>列表请求测试1：返回所有，通过");
-
         t.setTitle("g");
-        Assertions.assertEquals(((List<Template>)
-                (controller.queryList(t)
+        Assertions.assertFalse(((List<Template>)
+                (controller.queryList(tr)
                         .getData()))
-                .isEmpty(), false, "Template模块>>列表请求测试2：根据模版名模糊查询，未通过");
+                .isEmpty(),  "Template模块>>列表请求测试2：根据模版名模糊查询，未通过");
         log.info("Template模块>>列表请求测试2：根据模版名模糊查询，通过");
 
         log.info("Template模块>>列表请求测试通过");

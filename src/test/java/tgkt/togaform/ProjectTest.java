@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import tgkt.togaform.controller.ProjectController;
 import tgkt.togaform.entity.Project;
+import tgkt.togaform.entity.Quesnaire;
 import tgkt.togaform.request.ProjectListRequest;
 import tgkt.togaform.response.ProjectQuesnaireResponse;
 import tgkt.togaform.service.ProjectService;
@@ -134,8 +135,7 @@ class ProjectTest {
         Assertions.assertEquals(
                 controller.queryById(p).getCode(), 0);
         log.info("Project模块>>单个请求测试1：无法查询为null的Id，通过");
-
-        p.setId("3697c089e44f7f29cc42566e5a9a38ce");
+        p.setId("c2e4c654382881578b7676aa17b04688");
         Assertions.assertEquals(
                 controller.queryById(p).getCode(), 1);
         log.info("Project模块>>单个请求测试2：存在的Id，通过");
