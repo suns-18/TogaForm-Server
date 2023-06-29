@@ -23,6 +23,8 @@ public class UserService {
         return mapper.deleteById(user);
     }
     public int update(User user) {
+        if(user.getId()==null||user.getId().equals("")||user.getUsername().equals("")||user.getUsername()==null)
+            return 0;
         return mapper.update(user);
     }
 
