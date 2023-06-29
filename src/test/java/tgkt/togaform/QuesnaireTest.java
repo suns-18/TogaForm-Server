@@ -11,6 +11,8 @@ import tgkt.togaform.entity.Quesnaire;
 import tgkt.togaform.request.QuesnaireListRequest;
 import tgkt.togaform.service.QuestionService;
 
+import java.util.List;
+
 
 @SpringBootTest
 @Component
@@ -97,9 +99,9 @@ public class QuesnaireTest {
         Assertions.assertEquals(
                 controller.deleteById(q).getCode(), 0);
         log.info("Quesnaire模块>>删除请求测试1：Id为null，通过");
-
-        q.setId("649c32ce6e79593de44a4d7a");
-        q=(Quesnaire) controller.queryById(q).getData();
+        var qr = new QuesnaireListRequest();
+        var data = ((List<Quesnaire>) controller.queryByProject(qr).getData());
+        q=data.get(0);
         Assertions.assertEquals(
                 controller.deleteById(q).getCode(), 1);
         log.info("Quesnaire模块>>删除请求测试2：正常情况，通过");
