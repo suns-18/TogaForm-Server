@@ -10,6 +10,8 @@ import tgkt.togaform.controller.TemplateController;
 import tgkt.togaform.entity.Template;
 import tgkt.togaform.request.TemplateListRequest;
 import tgkt.togaform.service.TemplateService;
+
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -43,6 +45,7 @@ public class TemplateTest {
 
         log.info("Template模块>>添加请求测试通过");
     }
+
     @Test
     void modify() {
         var t = new Template();
@@ -92,27 +95,30 @@ public class TemplateTest {
 
         log.info("Template模块>>删除请求测试通过");
     }
+
     @Test
     void queryList() {
         var t = new TemplateListRequest();
-
-        Assertions.assertFalse(((List<Template>)
-                        (controller.queryList(t)
-                                .getData()))
-                        .isEmpty()
-                , "Template模块>>列表请求测试1：返回所有，未通过");
+        t.setPage(1);
+        t.setSize(10);
+        var data = controller.queryList(t)
+                .getData();
+        var dataList = new ArrayList<>();
+        dataList.addAll((List<Template>)data);
+        Assertions.assertEquals(dataList
+                .isEmpty(), false, "Template模块>>列表请求测试1：返回所有，未通过");
         log.info("Template模块>>列表请求测试1：返回所有，通过");
 
         t.setTitle("g");
-        Assertions.assertFalse(((List<Template>)
-                        (controller.queryList(t)
-                                .getData()))
-                        .isEmpty()
-                , "Template模块>>列表请求测试2：根据模版名模糊查询，未通过");
+        Assertions.assertEquals(((List<Template>)
+                (controller.queryList(t)
+                        .getData()))
+                .isEmpty(), false, "Template模块>>列表请求测试2：根据模版名模糊查询，未通过");
         log.info("Template模块>>列表请求测试2：根据模版名模糊查询，通过");
 
         log.info("Template模块>>列表请求测试通过");
     }
+
     @Test
     void querySingle() {
         var t = new Template();
