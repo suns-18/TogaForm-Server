@@ -7,11 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import tgkt.togaform.controller.ProjectController;
 import tgkt.togaform.entity.Project;
-import tgkt.togaform.entity.Template;
 import tgkt.togaform.request.ProjectListRequest;
+import tgkt.togaform.response.ProjectQuesnaireResponse;
 import tgkt.togaform.service.ProjectService;
-
-import java.util.ArrayList;
 import java.util.List;
 
 @SpringBootTest
@@ -84,10 +82,14 @@ class ProjectTest {
         var pr = new ProjectListRequest();
         pr.setStart(1);
         pr.setLimit(10);
-        var data = controller.queryList(pr)
-                .getData();
-        var dataList = new ArrayList<>();
-        dataList.addAll((List<Project>)data);
+        var dataList = (List<ProjectQuesnaireResponse>)
+                controller.queryList(pr)
+                        .getData();
+
+        p.setId(dataList
+                .get(0)
+                .getProject()
+                .getId());
 
         p.setProjectName("test");
         Assertions.assertEquals(
@@ -101,11 +103,12 @@ class ProjectTest {
 
         log.info("Project模块>>删除请求测试通过");
     }
+
     @Test
     void queryList() {
         var p = new ProjectListRequest();
 
-        Assertions.assertFalse(((List<Project>)
+        Assertions.assertFalse(((List<ProjectQuesnaireResponse>)
                         (controller.queryList(p)
                                 .getData()))
                         .isEmpty()
@@ -114,7 +117,7 @@ class ProjectTest {
 
         p.setId(null);
         p.setProjectName("g");
-        Assertions.assertFalse(((List<Project>)
+        Assertions.assertFalse(((List<ProjectQuesnaireResponse>)
                         (controller.queryList(p)
                                 .getData()))
                         .isEmpty()
